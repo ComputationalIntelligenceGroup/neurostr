@@ -136,6 +136,7 @@ set (TOOL_SRC_DIR "${CMAKE_SOURCE_DIR}/tools")
 set ( TOOLS_CXX_SRCS
     ${TOOL_SRC_DIR}/BoxCutter.cpp
     ${TOOL_SRC_DIR}/BranchFeatureExtractor.cpp
+    ${TOOL_SRC_DIR}/BojanFeatureExtractor.cpp
     ${TOOL_SRC_DIR}/NeuriteFeatureExtractor.cpp
     ${TOOL_SRC_DIR}/NeuroConverter.cpp
     ${TOOL_SRC_DIR}/Scholl.cpp
@@ -166,6 +167,10 @@ add_dependencies(neurostr_boxcutter neurostr)
 add_executable(neurostr_branchfeatures ${CMAKE_SOURCE_DIR}/tools/BranchFeatureExtractor.cpp)
 target_link_libraries(neurostr_branchfeatures -lneurostr -lpthread -lboost_filesystem -lboost_program_options)
 add_dependencies(neurostr_branchfeatures neurostr)
+
+add_executable(neurostr_bojanfeatures ${CMAKE_SOURCE_DIR}/tools/BojanFeatureExtractor.cpp)
+target_link_libraries(neurostr_bojanfeatures -lneurostr -lpthread -lboost_filesystem -lboost_program_options)
+add_dependencies(neurostr_bojanfeatures neurostr)
 
 add_executable(neurostr_neuritefeatures ${CMAKE_SOURCE_DIR}/tools/NeuriteFeatureExtractor.cpp)
 target_link_libraries(neurostr_neuritefeatures -lneurostr -lpthread -lboost_filesystem -lboost_program_options)
