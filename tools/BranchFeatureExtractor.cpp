@@ -27,11 +27,13 @@
 
 #include <neurostr/selector/neurite_selector.h>
 
-#include <neurostr/io/parser_dispatcher.h>
+#include <neurostr/io/parser_dispatcher.h> 
+#include <neurostr/measure/lmeasure_decl.h>
 
 namespace po = boost::program_options;
 namespace ns = neurostr::selector;
-namespace nm = neurostr::measure;
+namespace nm = neurostr::measure; 
+namespace nlm = neurostr::measure::lmeasure;
 
  std::string escape_string(const std::string& s){
    return "\""+s+"\"";
@@ -65,6 +67,9 @@ namespace nm = neurostr::measure;
   
   // Length
   m.emplace("length", b.length());
+
+  // N tips 
+  // m.emplace("n_tips", nlm::n_tips(b));
   
   // Number of descs
   int ndescs = b.neurite().find(b).number_of_children();

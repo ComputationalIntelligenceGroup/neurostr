@@ -17,6 +17,7 @@
 
 #include <neurostr/core/log.h>
 #include <neurostr/core/neuron.h>
+#include <neurostr/core/node.h>
 
 #include <neurostr/measure/universal_measure.h>
 #include <neurostr/measure/branch_measure.h>
@@ -65,6 +66,22 @@ namespace nm = neurostr::measure;
    aux.clear();
    aux.push_back(nnodes);
    m.emplace( "N_nodes", aux );
+
+
+   // Node ids 
+   std::vector<float> node_ids;
+   std::vector<float> branch_ids;
+   auto neurite_nodes = ns::neurite_node_selector(n);
+   for(auto node =  neurite_nodes.begin(); node != neurite_nodes.end(); ++node) {
+       node_ids.push_back((float)(node->get().id()));
+       std::vector<int> v_branch_ids = node->get().branch().id();
+       std::stringstream result;
+       std::copy(v_branch_ids.begin(),  v_branch_ids.end(), std::ostream_iterator<int>(result, ""));
+       // branch_ids.push_back(std::stof(result.str())); 
+
+   }
+   m.emplace("node_ids", node_ids);
+   // m.emplace("branch_ids", branch_ids);
    
    // Node (compartment) length
    m.emplace( "node_length" , nm::selectorMeasureCompose(ns::neurite_node_selector,
@@ -252,6 +269,39 @@ void print_vector_measures(std::map<std::string, std::vector<float>>& m ,
   os << " }"; // Close measures
 }
 
+void print_id_data(const neurostr::Neurite& n, std::ostream& os) { 
+    std::vector<std::string> v; 
+    auto neurite_nodes = ns::neurite_node_selector(n);
+    for(auto node =  neurite_nodes.begin(); node != neurite_nodes.end(); ++node) {
+        std::string branch_id = node->get().branch().idString();
+        v.push_back(branch_id); 
+    } 
+
+    // Cannot be NaNs here, because it is strings 
+    
+    bool first = true;
+    // If values vector is not empty
+    if(v.size() > 0){
+       os << ", ";
+    
+      // Print key
+      os << escape_string("branch_id") << " : " ;
+      
+      // Print value vector
+      os << "[ " ;
+      os << v.front();
+      
+      // Print rest
+      for( auto val = std::next(v.begin(),1); val != v.end(); ++val){
+        os << ", " << escape_string(*val);
+      }
+      
+      // Close array
+      os << "]";
+    
+    } // End if vector is empty 
+}
+
 void print_neurite_measures(const neurostr::Neurite& n, const std::vector<std::string>& markers, std::ostream& os){
   os << "{" ;
   // Print neurite ID
@@ -261,8 +311,9 @@ void print_neurite_measures(const neurostr::Neurite& n, const std::vector<std::s
   // Get measures
   auto m = get_neurite_measures(n,markers);
   
-  // Print them
   print_vector_measures(m,os);
+
+  print_id_data(n, os);
   
   // End obj
   os << "}";
