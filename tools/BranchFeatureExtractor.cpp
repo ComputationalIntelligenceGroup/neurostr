@@ -68,6 +68,21 @@ namespace nlm = neurostr::measure::lmeasure;
   // Length
   m.emplace("length", b.length());
 
+  // Is terminal 
+  auto terminals = ns::neurite_terminal_branches(b.neurite()); 
+  bool inside  = false;
+  for (auto br_it = terminals.begin(); br_it != terminals.end(); ++br_it)
+    if (br_it->get() == b) inside = true;
+  m.emplace("is_terminal", (float) inside );
+
+  // Is pre-terminal 
+  auto pre_terminals = ns::neurite_pre_terminal_branches(b.neurite()); 
+  inside  = false;
+  for (auto br_it = pre_terminals.begin(); br_it != pre_terminals.end(); ++br_it)
+    if (br_it->get() == b) inside = true;
+  m.emplace("is_pre_terminal", (float) inside );
+
+  //
   // N tips 
   // m.emplace("n_tips", nlm::n_tips(b));
   
