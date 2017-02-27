@@ -82,6 +82,19 @@ namespace nlm = neurostr::measure::lmeasure;
     if (br_it->get() == b) inside = true;
   m.emplace("is_pre_terminal", (float) inside );
 
+  // Num. of tips 
+  auto it = b.neurite().find(b);
+  auto cit = b.neurite().begin_children(it);
+  auto n1 = NAN;
+  auto n2 = NAN; 
+  if(it.number_of_children() == 2){
+      n1 = std::distance(b.neurite().begin_leaf(cit),b.neurite().end_leaf(cit));
+      ++cit; 
+      n2 = std::distance(b.neurite().begin_leaf(cit),b.neurite().end_leaf(cit)); 
+  } 
+  m.emplace("n_tips_left", (float) n1);
+  m.emplace("n_tips_right", (float) n2 );
+
   //
   // N tips 
   // m.emplace("n_tips", nlm::n_tips(b));
@@ -132,9 +145,9 @@ namespace nlm = neurostr::measure::lmeasure;
                                           
     // Child diameter ratio
     m.emplace( "child_diam_ratio", nm::child_diam_ratio(b)); 
+
     // Partition asymmetry
-    m.emplace( "partition_asymmetry", nm::selectorMeasureCompose(ns::branch_node_selector,
-                                                                 nm::node_set_fractal_dim)(b)); 
+    m.emplace( "partition_asymmetry", nm::partition_asymmetry(b)) ;  
   } else {
     NSTR_LOG_(info, std::string("Branch ") + b.idString() + " is not a bifurcation branch. Bif. measures are skipped" );
   }
