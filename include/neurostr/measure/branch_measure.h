@@ -280,7 +280,7 @@ const auto local_bifurcation_angle = [](const Branch &b) -> float {
   }
   
   auto it = b.neurite().find(b);
-  if(it.number_of_children() < 2){
+  if(it.number_of_children() != 2){
     return NAN;
   } else {
     auto cit_a = b.neurite().begin_children(it);
@@ -306,7 +306,7 @@ const auto remote_bifurcation_angle = [](const Branch &b) -> float {
   }
   
   auto it = b.neurite().find(b);
-  if(it.number_of_children() < 2){
+  if(it.number_of_children() != 2){
     return NAN;
   } else {
     auto cit_a = b.neurite().begin_children(it);
@@ -326,7 +326,7 @@ const auto local_tilt_angle = [](const Branch &b) -> float {
   }
   
   auto it = b.neurite().find(b);
-  if(it.number_of_children() < 2){
+  if(it.number_of_children() != 2){
     return NAN;
   } else {
     
@@ -351,7 +351,7 @@ const auto remote_tilt_angle = [](const Branch &b) -> float {
   }
   
   auto it = b.neurite().find(b);
-  if(it.number_of_children() < 2){
+  if(it.number_of_children() != 2){
     return NAN;
   } else {
     point_type v;
@@ -474,7 +474,7 @@ const auto local_torque_angle = [](const Branch &b) -> float {
   }
   
   auto it = b.neurite().find(b);
-  if(it.number_of_children() < 2){
+  if(it.number_of_children() != 2){
     return NAN;
   } else {
     
@@ -498,7 +498,7 @@ const auto remote_torque_angle = [](const Branch &b) -> float {
   }
   
   auto it = b.neurite().find(b);
-  if(it.number_of_children() < 2){
+  if(it.number_of_children() != 2){
     return NAN;
   } else {
     
