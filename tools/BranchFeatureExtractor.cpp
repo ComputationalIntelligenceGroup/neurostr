@@ -68,6 +68,11 @@ namespace nlm = neurostr::measure::lmeasure;
   // Length
   m.emplace("length", b.length());
 
+  // Number of descs
+  int ndescs = b.neurite().find(b).number_of_children();
+  is_bifurcation = ndescs > 1;
+  m.emplace("N_descs", ndescs);
+
   // Is terminal 
   auto terminals = ns::neurite_terminal_branches(b.neurite()); 
   bool inside  = false;
@@ -94,15 +99,20 @@ namespace nlm = neurostr::measure::lmeasure;
   } 
   m.emplace("n_tips_left", (float) n1);
   m.emplace("n_tips_right", (float) n2 );
+  auto pas = NAN; 
+  if (ndescs == 2) {
+      if (n1 == 0.0) n1 = 1.0;
+      if (n2 == 0.0) n2 = 1.0;
+      if (n1 + n2 > 2) { 
+          pas = std::abs(n1 - n2) / (n1 + n2 - 2);
+      } 
+  } 
+  m.emplace("pas", (float) pas );
 
   //
   // N tips 
   // m.emplace("n_tips", nlm::n_tips(b));
   
-  // Number of descs
-  int ndescs = b.neurite().find(b).number_of_children();
-  is_bifurcation = ndescs > 1;
-  m.emplace("N_descs", ndescs);
   
   // Volume
   m.emplace("volume",   nm::selectorMeasureCompose(ns::branch_node_selector,
