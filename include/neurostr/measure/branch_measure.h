@@ -160,9 +160,9 @@ const auto parent_child_diam_ratio = [](const Branch& b) -> std::pair<float,floa
     return std::pair<float,float>( r1 , cit->first().radius()/b.last().radius() );
   }
 }; 
- 
+
 const auto partition_asymmetry = [](const Branch& b) -> float {
-  
+
   auto it = b.neurite().find(b);
     
   if(it.number_of_children() != 2){
@@ -171,15 +171,17 @@ const auto partition_asymmetry = [](const Branch& b) -> float {
     auto cit = b.neurite().begin_children(it);
     auto n1 = std::distance(b.neurite().begin_leaf(cit),b.neurite().end_leaf(cit));
     // if it has not child tips, it is a tip itself 
-    if (n1 == 0) ++n1;
+    if (n1 == 0) n1 = 1;
     ++cit; 
-    auto n2 = std::distance(b.neurite().begin_leaf(cit),b.neurite().end_leaf(cit));
+    auto n2 = std::distance(b.neurite().begin_leaf(cit),b.neurite().end_leaf(cit)); 
     // if it has not child tips, it is a tip itself 
-    if (n2 == 0) ++n2;
-    
+    if (n2 == 0) n2 = 1;
+
     // It is only defined for n1 + n2 > 2
-    if (n1 + n2 <= 2) return NAN;
-    else return std::abs(n1 - n2) / (n1 + n2 - 2);
+     if (n1 + n2 <= 2) { 
+         return NAN;
+     }
+     else return ((float) std::abs(n1 - n2)) / (n1 + n2 - 2);
   }
 };  
 
