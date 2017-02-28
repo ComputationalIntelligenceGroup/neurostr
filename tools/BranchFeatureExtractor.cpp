@@ -112,9 +112,10 @@ namespace nm = neurostr::measure;
                                           
     // Child diameter ratio
     m.emplace( "child_diam_ratio", nm::child_diam_ratio(b)); 
+
     // Partition asymmetry
-    m.emplace( "partition_asymmetry", nm::selectorMeasureCompose(ns::branch_node_selector,
-                                                                 nm::node_set_fractal_dim)(b)); 
+    m.emplace( "partition_asymmetry", nm::partition_asymmetry(b)) ;  
+
   } else {
     NSTR_LOG_(info, std::string("Branch ") + b.idString() + " is not a bifurcation branch. Bif. measures are skipped" );
   }
