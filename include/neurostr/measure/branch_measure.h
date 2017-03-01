@@ -178,13 +178,13 @@ const auto partition_asymmetry = [](const Branch& b) -> float {
     if (n2 == 0) n2 = 1;
 
     // It is only defined for n1 + n2 > 2
-     if (n1 == 1 && n2 == 1) { 
-         return 0.0;
-     }
-     else if (n1 + n2 <= 2) { 
-         return NAN;
-     }
-     else return ((float) std::abs(n1 - n2)) / (n1 + n2 - 2);
+    if (n1 == 1 && n2 == 1) { 
+        return 0.0;
+    }
+    else if (n1 + n2 <= 2) { 
+        return NAN;
+    }
+    else return ((float) std::abs(n1 - n2)) / (n1 + n2 - 2);
   }
 };  
 
