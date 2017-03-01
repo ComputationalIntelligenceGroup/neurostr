@@ -96,13 +96,13 @@ namespace nlm = neurostr::measure::lmeasure;
       n1 = std::distance(b.neurite().begin_leaf(cit),b.neurite().end_leaf(cit));
       ++cit; 
       n2 = std::distance(b.neurite().begin_leaf(cit),b.neurite().end_leaf(cit)); 
+      if (n1 == 0.0) n1 = 1.0;
+      if (n2 == 0.0) n2 = 1.0;
   } 
   m.emplace("n_tips_left", (float) n1);
   m.emplace("n_tips_right", (float) n2 );
   auto pas = NAN; 
   if (ndescs == 2) {
-      if (n1 == 0.0) n1 = 1.0;
-      if (n2 == 0.0) n2 = 1.0;
       if (n1 + n2 > 2) { 
           pas = std::abs(n1 - n2) / (n1 + n2 - 2);
       } 
