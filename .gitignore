@@ -17,3 +17,4 @@ cmake-build-Debug
 cmake-build-Release
 .couscous
 doc/.couscous
+build/
