@@ -109,6 +109,11 @@ namespace nlm = neurostr::measure::lmeasure;
   } 
   m.emplace("pas", (float) pas );
 
+  m.emplace("x", (float) b.last().x());
+
+  m.emplace("y", (float) b.last().y());
+
+  m.emplace("z", (float) b.last().z());
   //
   // N tips 
   // m.emplace("n_tips", nlm::n_tips(b));
