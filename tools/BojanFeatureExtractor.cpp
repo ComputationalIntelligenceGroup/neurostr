@@ -27,11 +27,13 @@
 
 #include <neurostr/selector/neurite_selector.h>
 
-#include <neurostr/io/parser_dispatcher.h>
+#include <neurostr/io/parser_dispatcher.h> 
+#include <neurostr/measure/lmeasure_decl.h>
 
 namespace po = boost::program_options;
 namespace ns = neurostr::selector;
-namespace nm = neurostr::measure;
+namespace nm = neurostr::measure; 
+namespace nlm = neurostr::measure::lmeasure;
 
  std::string escape_string(const std::string& s){
    return "\""+s+"\"";
@@ -42,89 +44,35 @@ namespace nm = neurostr::measure;
  }
  
  
- std::map<std::string, float> get_branch_measures(const neurostr::Branch& b){
+std::map<std::string, float> get_node_measures(const neurostr::Node& n){
    
-   std::map<std::string, float> m; // measures
-   bool is_bifurcation = false;
-   
-   
-  // Number of nodes
-  m.emplace( "N_nodes", b.size());
-   
-  // Tortuosity
-  m.emplace( "tortuosity", nm::tortuosity(b));
-   
-  // Hillman taper rate
-  m.emplace( "hill_taper_rate", nm::taper_rate_hillman(b)); 
-  
-  // Burker taper rate
-  m.emplace( "burker_taper_rate", nm::taper_rate_burker(b)); 
-  
-  // Centrifugal order
-  m.emplace( "centrifugal_order", b.order()); 
-  
-  // Length
-  m.emplace("length", b.length());
-  
-  // Number of descs
-  int ndescs = b.neurite().find(b).number_of_children();
-  is_bifurcation = ndescs > 1;
-  m.emplace("N_descs", ndescs);
-  
-  // Volume
-  m.emplace("volume",   nm::selectorMeasureCompose(ns::branch_node_selector,
-                          nm::measureEachAggregate( nm::node_volume,
-                                                    nm::aggregate::sum_aggr_factory<float,float>(0.0)))(b));
-                                                    
-  // Surface
-  m.emplace("surface",   nm::selectorMeasureCompose(ns::branch_node_selector,
-                          nm::measureEachAggregate( nm::node_compartment_surface,
-                                                    nm::aggregate::sum_aggr_factory<float,float>(0.0)))(b));
-  
-  // Box volume
-  m.emplace("box_volume",   nm::selectorMeasureCompose(ns::branch_node_selector,
-                                                       nm::box_volume)(b));
-                                                       
-  // Fractal dim
-  m.emplace("fractal_dimension",   nm::branch_fractal_dim(b));
-
-
-  /** Bifurcation measures **/
-  if(is_bifurcation){
-    
-    // Local bifurcation angle
-    m.emplace( "local_bifurcation_angle", nm::local_bifurcation_angle(b)); 
+  std::map<std::string, float> m; // measures 
                                           
-    // Local tilt angle
-    m.emplace( "local_tilt_angle", nm::local_tilt_angle(b)); 
+  // Node (compartment) length
+  m.emplace( "node_length" , nm::node_length_to_parent(n)); 
+  m.emplace( "node_root_dist", nm::node_distance_to_root(n)); 
+  // Node path distance to root
+  m.emplace( "node_root_path", nm::node_path_to_root(n)); 
+  m.emplace( "x", n.x()); 
+  m.emplace( "y", n.y()); 
+  m.emplace( "z", n.z()); 
 
-    // Local torque angle
-    m.emplace( "local_torque_angle", nm::local_torque_angle(b)); 
-                                          
-    // Remote bifurcation angle
-    m.emplace( "remote_bifurcation_angle", nm::remote_bifurcation_angle(b)); 
-                                          
-    // Remote tilt angle
-    m.emplace( "remote_tilt_angle", nm::remote_tilt_angle(b)); 
-
-    // Remote torque angle
-    m.emplace( "remote_torque_angle", nm::remote_torque_angle(b)); 
-                                          
-    // Partition asymmetry
-    m.emplace( "partition_asymmetry", nm::selectorMeasureCompose(ns::branch_node_selector,
-                                                                 nm::node_set_fractal_dim)(b)); 
-  } else {
-    NSTR_LOG_(info, std::string("Branch ") + b.idString() + " is not a bifurcation branch. Bif. measures are skipped" );
-  }
+  m.emplace( "node_local_elongation", nm::node_local_elongation_angle(n));
+  std::pair<float, float> orientation = nm::node_local_orientation(n);
+  m.emplace( "node_local_orientation.a", orientation.first ); 
+  m.emplace( "node_local_orientation.e", orientation.second ); 
+  m.emplace( "extreme_angle", (float) nm::extreme_angle(n));
   
   return m;
   
 }
  
-void print_branch_id(const neurostr::Branch& b, std::ostream& os){
+void print_node_id(const neurostr::Node& n, std::ostream& os){
+  const neurostr::Branch& b = n.branch();
   os << escape_string("neuron") << " : " << escape_string(b.neurite().neuron().id()) << ", ";
   os << escape_string("neurite") << " : " << b.neurite().id() << ", ";
   os << escape_string("neurite_type") << " : ";
+
   if(b.neurite().type() == neurostr::NeuriteType::kAxon){ 
     os << escape_string("Axon");
   } else if(b.neurite().type() == neurostr::NeuriteType::kApical){ 
@@ -136,6 +84,7 @@ void print_branch_id(const neurostr::Branch& b, std::ostream& os){
   }
   
   os << ", " << escape_string("branch") << " : " << escape_string(b.idString()) ;
+  os << ", " << escape_string("node") << " : " << n.id() ;
 }
 
 // Note: This should be done with rapidjson
@@ -165,14 +114,14 @@ void print_measures(std::map<std::string, float>& m ,
   os << " }"; // Close measures
 }
 
-void print_branch_measures(const neurostr::Branch& b, std::ostream& os){
+void print_node_measures(const neurostr::Node& b, std::ostream& os){
   os << "{" ;
   // Print neurite ID
-  print_branch_id(b,os);
+  print_node_id(b,os);
   os << ", ";
   
   // Get measures
-  auto m = get_branch_measures(b);
+  auto m = get_node_measures(b);
   
   // Print them
   print_measures(m,os);
@@ -255,36 +204,19 @@ int main(int ac, char **av)
     if(omitapical) n.erase_apical();
     if(omitaxon) n.erase_axon();
     if(omitdend) n.erase_dendrites();
-    if(correct) n.correct();
-    
-    // Select branch subset
-    std::vector<ns::const_branch_reference> branches;
-    
-    if(selection == "all"){
-      branches = ns::neuron_branch_selector(n);
-    } else if (selection == "terminal"){
-      branches = ns::selector_foreach(ns::neuron_neurites,ns::neurite_terminal_branches)(n);
-    } else if (selection == "nonterminal"){
-      branches = ns::selector_foreach(ns::neuron_neurites,ns::neurite_non_terminal_branches)(n);
-    } else if (selection == "preterminal"){
-      branches = ns::selector_foreach(ns::neuron_neurites,ns::neurite_pre_terminal_branches)(n);
-    } else if (selection == "root"){
-      branches = ns::compose_selector(ns::branch_order_filter_factory(0),ns::neuron_branch_selector)(n);
-    } else {
-      NSTR_LOG_(error, "Unrecognized selection type. Selecting all branches.")
-      branches = ns::neuron_branch_selector(n);
-    }
-
+    if(correct) n.correct(); 
  
+    std::vector<ns::const_node_reference> nodes;
+    nodes = ns::neuron_node_selector(n); 
   
     // Select branches
-    for(auto it = branches.begin(); it != branches.end(); ++it){
+    for(auto it = nodes.begin(); it != nodes.end(); ++it){
       if(!first){
         std::cout << " , ";
       }
       first = false;
       
-      print_branch_measures(*it, std::cout);
+      print_node_measures(*it, std::cout);
     }  
   }
   
