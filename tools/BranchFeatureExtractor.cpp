@@ -186,6 +186,7 @@ void print_branch_id(const neurostr::Branch& b, std::ostream& os){
   }
   
   os << ", " << escape_string("branch") << " : " << escape_string(b.idString()) ;
+  os << ", " << escape_string("node") << " : " << b.last().id() ;
 }
 
 // Note: This should be done with rapidjson
