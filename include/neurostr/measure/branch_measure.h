@@ -435,7 +435,7 @@ const auto remote_plane_vector = [](const Branch &b) -> point_type {
     
     // Our vector
     auto v = b.root().vectorTo(b.last());
-  
+ // root must be the same for both branches  
     // Check if we have siblings
     if(it.node->prev_sibling == nullptr){
       if(it.node->next_sibling == nullptr){
