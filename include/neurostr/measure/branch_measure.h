@@ -170,11 +170,11 @@ const auto partition_asymmetry = [](const Branch& b) -> float {
   } else {
     auto cit = b.neurite().begin_children(it);
     auto n1 = std::distance(b.neurite().begin_leaf(cit),b.neurite().end_leaf(cit));
-    // if it has no child tips, it is a tip itself 
+    // If the child is a terminal branch itself, it won't be counted 
     if (n1 == 0) n1 = 1;
     ++cit; 
     auto n2 = std::distance(b.neurite().begin_leaf(cit),b.neurite().end_leaf(cit)); 
-    // if it has no child tips, it is a tip itself 
+    // If the child is a terminal branch itself, it won't be counted 
     if (n2 == 0) n2 = 1;
 
     // It is only defined for n1 + n2 > 2
@@ -201,14 +201,10 @@ const auto vertex_type = [](const Branch& b) -> float {
   auto n1 = std::distance(b.neurite().begin_leaf(cit),b.neurite().end_leaf(cit)); 
   ++cit; 
   auto n2 = std::distance(b.neurite().begin_leaf(cit),b.neurite().end_leaf(cit)); 
-  if (n1 + n2 == 0) {
-      // It is a terminal branch if it has no tips to either side
-      return NAN; 
-  }
-  // 2: primary bifurcation
-  // 1: secondary bifurcation
-  // 0: tertiary bifurcation 
-  return 3.0 - (n1 == 1) + (n2 == 1); 
+  // 2: primary bifurcation: ends in two terminals 
+  // 1: secondary bifurcation: one terminal and one bifurcating child 
+  // 0: tertiary bifurcation: two bifurcating children 
+  return (n1 == 0) + (n2 == 0); 
 };
 
 static inline auto rall_power_fit_factory(float min = 0 , float max = 5){
