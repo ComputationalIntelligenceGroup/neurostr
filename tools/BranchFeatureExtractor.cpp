@@ -163,6 +163,9 @@ namespace nlm = neurostr::measure::lmeasure;
 
     // Partition asymmetry
     m.emplace( "partition_asymmetry", nm::partition_asymmetry(b)) ;  
+
+    // Vertex type 
+    m.emplace( "vertex_type", nm::vertex_type(b)) ;  
   } else {
     NSTR_LOG_(info, std::string("Branch ") + b.idString() + " is not a bifurcation branch. Bif. measures are skipped" );
   }
