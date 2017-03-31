@@ -201,14 +201,10 @@ const auto vertex_type = [](const Branch& b) -> float {
   auto n1 = std::distance(b.neurite().begin_leaf(cit),b.neurite().end_leaf(cit)); 
   ++cit; 
   auto n2 = std::distance(b.neurite().begin_leaf(cit),b.neurite().end_leaf(cit)); 
-  if (n1 + n2 == 0) {
-      // It is a terminal branch if it has no tips to either side
-      return NAN; 
-  }
-  // 2: primary bifurcation
-  // 1: secondary bifurcation
-  // 0: tertiary bifurcation 
-  return 3.0 - (n1 == 1) + (n2 == 1); 
+  // 2: primary bifurcation: ends in two terminals 
+  // 1: secondary bifurcation: one terminal and one bifurcating child 
+  // 0: tertiary bifurcation: two bifurcating children 
+  return (n1 == 0) + (n2 == 0); 
 };
 
 static inline auto rall_power_fit_factory(float min = 0 , float max = 5){
@@ -458,7 +454,7 @@ const auto remote_plane_vector = [](const Branch &b) -> point_type {
     
     // Our vector
     auto v = b.root().vectorTo(b.last());
-  
+ // root must be the same for both branches  
     // Check if we have siblings
     if(it.node->prev_sibling == nullptr){
       if(it.node->next_sibling == nullptr){
