@@ -170,11 +170,11 @@ const auto partition_asymmetry = [](const Branch& b) -> float {
   } else {
     auto cit = b.neurite().begin_children(it);
     auto n1 = std::distance(b.neurite().begin_leaf(cit),b.neurite().end_leaf(cit));
-    // if it has no child tips, it is a tip itself 
+    // If the child is a terminal branch itself, it won't be counted 
     if (n1 == 0) n1 = 1;
     ++cit; 
     auto n2 = std::distance(b.neurite().begin_leaf(cit),b.neurite().end_leaf(cit)); 
-    // if it has no child tips, it is a tip itself 
+    // If the child is a terminal branch itself, it won't be counted 
     if (n2 == 0) n2 = 1;
 
     // It is only defined for n1 + n2 > 2
