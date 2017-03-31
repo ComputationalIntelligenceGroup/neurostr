@@ -14,7 +14,7 @@
 
 # Debug build cmake 
 
-    cmake -DCMAKE_BUILD_TYPE=Release ..
+    cmake -DCMAKE_BUILD_TYPE=Debug
 
 http://stackoverflow.com/questions/7724569/debug-vs-release-in-cmake
 
