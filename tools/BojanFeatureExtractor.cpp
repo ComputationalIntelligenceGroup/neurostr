@@ -57,6 +57,15 @@ std::map<std::string, float> get_node_measures(const neurostr::Node& n){
   m.emplace( "y", n.y()); 
   m.emplace( "z", n.z()); 
 
+  auto zemo = ns::node_subtree_terminals(n); 
+  int tdegree = std::distance(zemo.begin(), zemo.end());
+  m.emplace( "terminal_degree", tdegree); 
+
+  auto parent = nm::vector_from_parent(n); 
+  m.emplace( "change_x", parent.get<0>()); 
+  m.emplace( "change_y", parent.get<1>()); 
+  m.emplace( "change_z", parent.get<2>()); 
+
   m.emplace( "node_local_elongation", nm::node_local_elongation_angle(n));
   std::pair<float, float> orientation = nm::node_local_orientation(n);
   m.emplace( "node_local_orientation.a", orientation.first ); 
@@ -72,6 +81,8 @@ void print_node_id(const neurostr::Node& n, std::ostream& os){
   os << escape_string("neuron") << " : " << escape_string(b.neurite().neuron().id()) << ", ";
   os << escape_string("neurite") << " : " << b.neurite().id() << ", ";
   os << escape_string("neurite_type") << " : ";
+
+  //auto avg_direction = nm::nodeset_avg_orientation(ns::neuron_node_selector(b.neurite().neuron())); 
 
   if(b.neurite().type() == neurostr::NeuriteType::kAxon){ 
     os << escape_string("Axon");
