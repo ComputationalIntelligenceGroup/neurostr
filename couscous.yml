@@ -1,8 +1,5 @@
-template:
-    #Custom
-    # url: https://github.com/lrodriguezlujan/Template-ReadTheDocs.git
-
-    url: https://github.com/lrodriguezlujan/Template-ReadTheDocs
+template: 
+    url: https://github.com/ComputationalIntelligenceGroup/Template-ReadTheDocs
     # directory: ~/github/Template-ReadTheDocs-custom
 include:
 exclude:
@@ -17,7 +14,7 @@ scripts:
 branch: gh-pages
 
 github:
-    user: lrodriguezlujan
+    user: ComputationalIntelligenceGroup
     repo: neurostr
 # Change this to preview
 baseUrl: /neurostr
