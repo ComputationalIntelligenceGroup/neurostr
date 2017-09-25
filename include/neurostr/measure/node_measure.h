@@ -103,6 +103,13 @@ const auto node_compartment_surface = [](const Node &n) -> float {
   return M_PI * (parent.radius()+n.radius()) * s;
 };
 
+const auto vector_from_parent = [](const Node& n) -> point_type { 
+  const Node& parent = selector::node_parent(n);
+  auto v = parent.vectorTo(n);
+
+  return v;
+};
+
 // Average section area
 const auto node_compartment_section_area = [](const Node &n) -> float {
   const Node& parent = selector::node_parent(n);
