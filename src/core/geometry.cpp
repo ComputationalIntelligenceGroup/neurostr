@@ -432,16 +432,24 @@ float vector_vector_directed_angle(const point_type&v0 ,const point_type &v1, co
   //return std::atan2(geometry::norm(geometry::cross_product(norm_v0, norm_v1)), boost::geometry::dot_product(norm_v0, norm_v1));
 }
 std::pair<float,float> local_orientation(const point_type& p, const std::array<point_type,3>& basis){
-  point_type norm_p = p;
-  normalize(norm_p);
-  // Compute azimuth and incl
-  float azimuth =
-        std::atan2(boost::geometry::dot_product(norm_p, basis[1]), boost::geometry::dot_product(norm_p, basis[0]));
-        
-  float elevation =
-        std::atan2(boost::geometry::dot_product(norm_p, basis[2]), boost::geometry::dot_product(norm_p, basis[0]));
-        
-  return std::pair<float, float>(azimuth, elevation);
+    point_type norm_p = p;
+    normalize(norm_p);
+    float x=boost::geometry::dot_product(norm_p, basis[0]);
+    float y=boost::geometry::dot_product(norm_p, basis[1]);
+    float z=boost::geometry::dot_product(norm_p, basis[2]);
+    float r=sqrt(pow(x,2)+pow(y,2)+pow(z,2));
+    float azimuth;
+    float elevation;
+
+    if(r>0) {
+      azimuth=std::atan2(y,x);
+      elevation=std::acos(z/r);
+    } else{
+      azimuth=0;
+      elevation=0;       
+    }
+
+    return std::pair<float, float>(azimuth, elevation);        
 }
 
 polygon_type as_planar_polygon( const std::vector<point_type>& v){

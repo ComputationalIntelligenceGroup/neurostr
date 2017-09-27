@@ -8,7 +8,7 @@ NeuroSTR is a neuroanatomy toolbox for C++. It reads and processes three-dimensi
 
 ## Documentation
 
-[Check out the documentation!](https://lrodriguezlujan.github.io/neurostr)
+[Check out the documentation!](https://ComputationalIntelligenceGroup.github.io/neurostr)
 
 ## Dependencies
 
