@@ -112,6 +112,10 @@
                                 <a class="reference internal "
                                    href="/neurostr/doc/measures/prebuilt.html#lmeasure"> L-measure measures </a>
                               </li>
+                                                            <li class="sidenav toctree-l3 ">
+                                <a class="reference internal "
+                                   href="/neurostr/doc/measures/prebuilt.html#lmeasure-comparison"> L-measure comparison </a>
+                              </li>
                                                           </ul>
                                                     </li>
                         
@@ -301,6 +305,8 @@
 <li><a href="#lmeasure_hillman_threshold">Hillman threshold</a></li>
 <li><a href="#lmeasure_fractal_dimension">Fractal dimension</a></li>
 </ul>
+<hr />
+<h3><a href="#lmeasure-comparison">L-measure comparison</a></h3>
 <hr />
 <h1 id="node">Node measures</h1>
 <h3 id="x-y-z-components">X, Y, Z components<a id="node_component"> </a></h3>
@@ -831,6 +837,417 @@ exception for a <a href="../data_model.html#branch">Branch</a> with no nodes.</p
 <p><strong>Output:</strong> Fractal dimension <a href="(../measures.html#summary)">Summary</a> stats (sum, max, min, median, mean and sd).</p>
 <p><strong>Details:</strong> See <a href="node.html#fractal_dimension">Fractal dimension</a> measure.</p>
 <hr />
+<h1 id="lmeasure-comparison">L-measure comparison</h1>
+<p>This compares 17 L-Measure analyses to the corresponding ones computed with NeuroSTR. The table shows the mean absolute difference and correlation across on 219 interneurons (the names correspond to the L-Measure <a href="http://cng.gmu.edu:8080/Lm/help/index.htm">ones</a>). Measures with an absolute correlation &lt; 0.90 are marked as different.</p>
+<p>For most of the measures, NeuroSTR produces identical or very similar results as L-Measure. Differing measures include fractal dimension, and torque and tilt angles. As far as tilt angles, the definition used by NeuroSTR seems to differ form the one used by L-Measure, as NeuroSTR produces significantly smaller tilt angles than L-Measure. PathDistance_min, for example, differs because L-Measure seems to be computing the distance to soma centroid, and not to the point of insertion.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th style="text-align: right;">abs difference</th>
+<th style="text-align: left;">correlation</th>
+<th style="text-align: left;">different</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Partition_asymmetry_min</td>
+<td style="text-align: right;">0.000000e+00</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">X</td>
+</tr>
+<tr>
+<td>Partition_asymmetry_avg</td>
+<td style="text-align: right;">2.071100e-03</td>
+<td style="text-align: left;">0.996100276045597</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td>Partition_asymmetry_std</td>
+<td style="text-align: right;">7.656900e-03</td>
+<td style="text-align: left;">0.907571434440884</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td>Partition_asymmetry_max</td>
+<td style="text-align: right;">0.000000e+00</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">X</td>
+</tr>
+<tr>
+<td>Partition_asymmetry_sum</td>
+<td style="text-align: right;">1.200151e+00</td>
+<td style="text-align: left;">0.999083527492007</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td>PathDistance_min</td>
+<td style="text-align: right;">2.229969e+01</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">X</td>
+</tr>
+<tr>
+<td>PathDistance_avg</td>
+<td style="text-align: right;">2.001725e+01</td>
+<td style="text-align: left;">0.991257984928102</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td>PathDistance_std</td>
+<td style="text-align: right;">6.976029e-01</td>
+<td style="text-align: left;">0.999907974623442</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td>PathDistance_max</td>
+<td style="text-align: right;">2.230283e+01</td>
+<td style="text-align: left;">0.998855843934241</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td>PathDistance_sum</td>
+<td style="text-align: right;">2.816866e+05</td>
+<td style="text-align: left;">0.99922990822852</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td>Fractal_Dim_min</td>
+<td style="text-align: right;">3.160400e-03</td>
+<td style="text-align: left;">0.0206401479615145</td>
+<td style="text-align: left;">X</td>
+</tr>
+<tr>
+<td>Fractal_Dim_avg</td>
+<td style="text-align: right;">1.236650e-02</td>
+<td style="text-align: left;">0.410283477603493</td>
+<td style="text-align: left;">X</td>
+</tr>
+<tr>
+<td>Fractal_Dim_std</td>
+<td style="text-align: right;">1.034990e-02</td>
+<td style="text-align: left;">0.785722143517184</td>
+<td style="text-align: left;">X</td>
+</tr>
+<tr>
+<td>Fractal_Dim_max</td>
+<td style="text-align: right;">1.070795e-01</td>
+<td style="text-align: left;">0.581901774924155</td>
+<td style="text-align: left;">X</td>
+</tr>
+<tr>
+<td>Fractal_Dim_sum</td>
+<td style="text-align: right;">3.844008e+01</td>
+<td style="text-align: left;">0.979548213398901</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td>Branch_pathlength_min</td>
+<td style="text-align: right;">5.446470e-01</td>
+<td style="text-align: left;">0.708340638736405</td>
+<td style="text-align: left;">X</td>
+</tr>
+<tr>
+<td>Branch_pathlength_avg</td>
+<td style="text-align: right;">2.324426e-01</td>
+<td style="text-align: left;">0.999865047347315</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td>Branch_pathlength_std</td>
+<td style="text-align: right;">6.052271e-01</td>
+<td style="text-align: left;">0.999786069805852</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td>Branch_pathlength_max</td>
+<td style="text-align: right;">2.728793e-01</td>
+<td style="text-align: left;">0.999998964420045</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td>Branch_pathlength_sum</td>
+<td style="text-align: right;">6.211538e+01</td>
+<td style="text-align: left;">0.999984856890684</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td>Contraction_min</td>
+<td style="text-align: right;">1.197640e-02</td>
+<td style="text-align: left;">0.977796130877257</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td>Contraction_avg</td>
+<td style="text-align: right;">1.021690e-02</td>
+<td style="text-align: left;">0.97321722383137</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td>Contraction_std</td>
+<td style="text-align: right;">4.501100e-03</td>
+<td style="text-align: left;">0.986251109426759</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td>Contraction_max</td>
+<td style="text-align: right;">4.993800e-03</td>
+<td style="text-align: left;">0.477191281053891</td>
+<td style="text-align: left;">X</td>
+</tr>
+<tr>
+<td>Contraction_sum</td>
+<td style="text-align: right;">3.084918e+00</td>
+<td style="text-align: left;">0.999757237623208</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td>EucDistance_min</td>
+<td style="text-align: right;">1.349360e+00</td>
+<td style="text-align: left;">0.988231220230445</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td>EucDistance_avg</td>
+<td style="text-align: right;">1.823260e+00</td>
+<td style="text-align: left;">0.999863574895347</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td>EucDistance_std</td>
+<td style="text-align: right;">7.403589e-01</td>
+<td style="text-align: left;">0.999898926332369</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td>EucDistance_max</td>
+<td style="text-align: right;">1.728592e+00</td>
+<td style="text-align: left;">0.999977217689101</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td>EucDistance_sum</td>
+<td style="text-align: right;">6.910249e+04</td>
+<td style="text-align: left;">0.99979683332156</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td>Length_min</td>
+<td style="text-align: right;">7.839590e-02</td>
+<td style="text-align: left;">0.8273460933385</td>
+<td style="text-align: left;">X</td>
+</tr>
+<tr>
+<td>Length_avg</td>
+<td style="text-align: right;">2.148606e-01</td>
+<td style="text-align: left;">0.998762273938329</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td>Length_std</td>
+<td style="text-align: right;">9.202530e-02</td>
+<td style="text-align: left;">0.993449609351132</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td>Length_max</td>
+<td style="text-align: right;">9.703300e-03</td>
+<td style="text-align: left;">0.999994727485554</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td>Length_sum</td>
+<td style="text-align: right;">6.369182e+01</td>
+<td style="text-align: left;">0.999984572724984</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td>Branch_Order_min</td>
+<td style="text-align: right;">0.000000e+00</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">X</td>
+</tr>
+<tr>
+<td>Branch_Order_avg</td>
+<td style="text-align: right;">4.141417e-01</td>
+<td style="text-align: left;">0.97069802899676</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td>Branch_Order_std</td>
+<td style="text-align: right;">2.137369e-01</td>
+<td style="text-align: left;">0.986986520821249</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td>Branch_Order_max</td>
+<td style="text-align: right;">1.050228e-01</td>
+<td style="text-align: left;">0.998969212978679</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td>Branch_Order_sum</td>
+<td style="text-align: right;">7.898101e+04</td>
+<td style="text-align: left;">0.673317766087749</td>
+<td style="text-align: left;">X</td>
+</tr>
+<tr>
+<td>Bif_torque_remote_min</td>
+<td style="text-align: right;">1.680708e+00</td>
+<td style="text-align: left;">0.635288359081423</td>
+<td style="text-align: left;">X</td>
+</tr>
+<tr>
+<td>Bif_torque_remote_avg</td>
+<td style="text-align: right;">4.272049e+01</td>
+<td style="text-align: left;">0.0404260940147207</td>
+<td style="text-align: left;">X</td>
+</tr>
+<tr>
+<td>Bif_torque_remote_std</td>
+<td style="text-align: right;">2.587815e+01</td>
+<td style="text-align: left;">0.108875636009112</td>
+<td style="text-align: left;">X</td>
+</tr>
+<tr>
+<td>Bif_torque_remote_max</td>
+<td style="text-align: right;">8.639793e+01</td>
+<td style="text-align: left;">0.218415684125337</td>
+<td style="text-align: left;">X</td>
+</tr>
+<tr>
+<td>Bif_torque_remote_sum</td>
+<td style="text-align: right;">6.806988e+03</td>
+<td style="text-align: left;">0.987680908722341</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td>Bif_ampl_remote_min</td>
+<td style="text-align: right;">6.683836e-01</td>
+<td style="text-align: left;">0.948920995214031</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td>Bif_ampl_remote_avg</td>
+<td style="text-align: right;">1.783731e+00</td>
+<td style="text-align: left;">0.989652715694246</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td>Bif_ampl_remote_std</td>
+<td style="text-align: right;">1.164879e+00</td>
+<td style="text-align: left;">0.9882689021774</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td>Bif_ampl_remote_max</td>
+<td style="text-align: right;">2.317163e+00</td>
+<td style="text-align: left;">0.890147511797299</td>
+<td style="text-align: left;">X</td>
+</tr>
+<tr>
+<td>Bif_ampl_remote_sum</td>
+<td style="text-align: right;">2.761723e+02</td>
+<td style="text-align: left;">0.998837863523185</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td>Bif_tilt_remote_min</td>
+<td style="text-align: right;">1.949893e+01</td>
+<td style="text-align: left;">0.134134833363253</td>
+<td style="text-align: left;">X</td>
+</tr>
+<tr>
+<td>Bif_tilt_remote_avg</td>
+<td style="text-align: right;">8.376762e+01</td>
+<td style="text-align: left;">-0.473003077459945</td>
+<td style="text-align: left;">X</td>
+</tr>
+<tr>
+<td>Bif_tilt_remote_std</td>
+<td style="text-align: right;">1.209846e+01</td>
+<td style="text-align: left;">0.390476990326114</td>
+<td style="text-align: left;">X</td>
+</tr>
+<tr>
+<td>Bif_tilt_remote_max</td>
+<td style="text-align: right;">7.490481e+01</td>
+<td style="text-align: left;">-0.0163546264278658</td>
+<td style="text-align: left;">X</td>
+</tr>
+<tr>
+<td>Bif_tilt_remote_sum</td>
+<td style="text-align: right;">1.336028e+04</td>
+<td style="text-align: left;">0.926173733334739</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td>Bif_torque_local_min</td>
+<td style="text-align: right;">5.472301e+00</td>
+<td style="text-align: left;">-0.0414314037376772</td>
+<td style="text-align: left;">X</td>
+</tr>
+<tr>
+<td>Bif_torque_local_avg</td>
+<td style="text-align: right;">5.194249e+01</td>
+<td style="text-align: left;">0.0278312934989923</td>
+<td style="text-align: left;">X</td>
+</tr>
+<tr>
+<td>Bif_torque_local_std</td>
+<td style="text-align: right;">2.301028e+01</td>
+<td style="text-align: left;">0.0592057638788328</td>
+<td style="text-align: left;">X</td>
+</tr>
+<tr>
+<td>Bif_torque_local_max</td>
+<td style="text-align: right;">8.810073e+01</td>
+<td style="text-align: left;">0.0752406964607671</td>
+<td style="text-align: left;">X</td>
+</tr>
+<tr>
+<td>Bif_torque_local_sum</td>
+<td style="text-align: right;">8.028468e+03</td>
+<td style="text-align: left;">0.00506177323461263</td>
+<td style="text-align: left;">X</td>
+</tr>
+<tr>
+<td>Bif_tilt_local_min</td>
+<td style="text-align: right;">1.237795e+02</td>
+<td style="text-align: left;">-0.0473856576332252</td>
+<td style="text-align: left;">X</td>
+</tr>
+<tr>
+<td>Bif_tilt_local_avg</td>
+<td style="text-align: right;">1.422379e+02</td>
+<td style="text-align: left;">-0.185367299328921</td>
+<td style="text-align: left;">X</td>
+</tr>
+<tr>
+<td>Bif_tilt_local_std</td>
+<td style="text-align: right;">1.475418e+01</td>
+<td style="text-align: left;">0.111155845900793</td>
+<td style="text-align: left;">X</td>
+</tr>
+<tr>
+<td>Bif_tilt_local_max</td>
+<td style="text-align: right;">7.678624e+01</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">X</td>
+</tr>
+<tr>
+<td>Bif_tilt_local_sum</td>
+<td style="text-align: right;">1.611524e+04</td>
+<td style="text-align: left;">0.955729654829031</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td>N_bifs_sum</td>
+<td style="text-align: right;">1.574247e+02</td>
+<td style="text-align: left;">0.999960965731527</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
                     </div>
                 </div>
             </div>
