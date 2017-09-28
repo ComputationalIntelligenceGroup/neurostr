@@ -129,6 +129,10 @@ You might notice (and it seems odd) that there are very few Neurite and Neuron m
 - [Hillman threshold](#lmeasure_hillman_threshold)
 - [Fractal dimension](#lmeasure_fractal_dimension)
 
+--- 
+
+###[L-measure comparison](#lmeasure-comparison)
+
 ---
 
 # Node measures {#node}
@@ -1321,6 +1325,80 @@ exception for a [Branch] with no nodes.
 
 
 ---
+
+# L-measure comparison {#lmeasure-comparison} 
+This compares 17 L-Measure analyses to the corresponding ones computed with NeuroSTR. The table shows the mean absolute difference and correlation across on 219 interneurons (the names correspond to the L-Measure [ones](http://cng.gmu.edu:8080/Lm/help/index.htm)). Measures with an absolute correlation &lt; 0.90 are marked as different.
+
+For most of the measures, NeuroSTR produces identical or very similar results as L-Measure. Differing measures include fractal dimension, and torque and tilt angles. As far as tilt angles, the definition used by NeuroSTR seems to differ form the one used by L-Measure, as NeuroSTR produces significantly smaller tilt angles than L-Measure. PathDistance\_min, for example, differs because L-Measure seems to be computing the distance to soma centroid, and not to the point of insertion.
+
+|                           |  abs difference| correlation         | different |
+|---------------------------|---------------:|:--------------------|:----------|
+| Partition\_asymmetry\_min |    0.000000e+00|                     | X         |
+| Partition\_asymmetry\_avg |    2.071100e-03| 0.996100276045597   |           |
+| Partition\_asymmetry\_std |    7.656900e-03| 0.907571434440884   |           |
+| Partition\_asymmetry\_max |    0.000000e+00|                     | X         |
+| Partition\_asymmetry\_sum |    1.200151e+00| 0.999083527492007   |           |
+| PathDistance\_min         |    2.229969e+01|                     | X         |
+| PathDistance\_avg         |    2.001725e+01| 0.991257984928102   |           |
+| PathDistance\_std         |    6.976029e-01| 0.999907974623442   |           |
+| PathDistance\_max         |    2.230283e+01| 0.998855843934241   |           |
+| PathDistance\_sum         |    2.816866e+05| 0.99922990822852    |           |
+| Fractal\_Dim\_min         |    3.160400e-03| 0.0206401479615145  | X         |
+| Fractal\_Dim\_avg         |    1.236650e-02| 0.410283477603493   | X         |
+| Fractal\_Dim\_std         |    1.034990e-02| 0.785722143517184   | X         |
+| Fractal\_Dim\_max         |    1.070795e-01| 0.581901774924155   | X         |
+| Fractal\_Dim\_sum         |    3.844008e+01| 0.979548213398901   |           |
+| Branch\_pathlength\_min   |    5.446470e-01| 0.708340638736405   | X         |
+| Branch\_pathlength\_avg   |    2.324426e-01| 0.999865047347315   |           |
+| Branch\_pathlength\_std   |    6.052271e-01| 0.999786069805852   |           |
+| Branch\_pathlength\_max   |    2.728793e-01| 0.999998964420045   |           |
+| Branch\_pathlength\_sum   |    6.211538e+01| 0.999984856890684   |           |
+| Contraction\_min          |    1.197640e-02| 0.977796130877257   |           |
+| Contraction\_avg          |    1.021690e-02| 0.97321722383137    |           |
+| Contraction\_std          |    4.501100e-03| 0.986251109426759   |           |
+| Contraction\_max          |    4.993800e-03| 0.477191281053891   | X         |
+| Contraction\_sum          |    3.084918e+00| 0.999757237623208   |           |
+| EucDistance\_min          |    1.349360e+00| 0.988231220230445   |           |
+| EucDistance\_avg          |    1.823260e+00| 0.999863574895347   |           |
+| EucDistance\_std          |    7.403589e-01| 0.999898926332369   |           |
+| EucDistance\_max          |    1.728592e+00| 0.999977217689101   |           |
+| EucDistance\_sum          |    6.910249e+04| 0.99979683332156    |           |
+| Length\_min               |    7.839590e-02| 0.8273460933385     | X         |
+| Length\_avg               |    2.148606e-01| 0.998762273938329   |           |
+| Length\_std               |    9.202530e-02| 0.993449609351132   |           |
+| Length\_max               |    9.703300e-03| 0.999994727485554   |           |
+| Length\_sum               |    6.369182e+01| 0.999984572724984   |           |
+| Branch\_Order\_min        |    0.000000e+00|                     | X         |
+| Branch\_Order\_avg        |    4.141417e-01| 0.97069802899676    |           |
+| Branch\_Order\_std        |    2.137369e-01| 0.986986520821249   |           |
+| Branch\_Order\_max        |    1.050228e-01| 0.998969212978679   |           |
+| Branch\_Order\_sum        |    7.898101e+04| 0.673317766087749   | X         |
+| Bif\_torque\_remote\_min  |    1.680708e+00| 0.635288359081423   | X         |
+| Bif\_torque\_remote\_avg  |    4.272049e+01| 0.0404260940147207  | X         |
+| Bif\_torque\_remote\_std  |    2.587815e+01| 0.108875636009112   | X         |
+| Bif\_torque\_remote\_max  |    8.639793e+01| 0.218415684125337   | X         |
+| Bif\_torque\_remote\_sum  |    6.806988e+03| 0.987680908722341   |           |
+| Bif\_ampl\_remote\_min    |    6.683836e-01| 0.948920995214031   |           |
+| Bif\_ampl\_remote\_avg    |    1.783731e+00| 0.989652715694246   |           |
+| Bif\_ampl\_remote\_std    |    1.164879e+00| 0.9882689021774     |           |
+| Bif\_ampl\_remote\_max    |    2.317163e+00| 0.890147511797299   | X         |
+| Bif\_ampl\_remote\_sum    |    2.761723e+02| 0.998837863523185   |           |
+| Bif\_tilt\_remote\_min    |    1.949893e+01| 0.134134833363253   | X         |
+| Bif\_tilt\_remote\_avg    |    8.376762e+01| -0.473003077459945  | X         |
+| Bif\_tilt\_remote\_std    |    1.209846e+01| 0.390476990326114   | X         |
+| Bif\_tilt\_remote\_max    |    7.490481e+01| -0.0163546264278658 | X         |
+| Bif\_tilt\_remote\_sum    |    1.336028e+04| 0.926173733334739   |           |
+| Bif\_torque\_local\_min   |    5.472301e+00| -0.0414314037376772 | X         |
+| Bif\_torque\_local\_avg   |    5.194249e+01| 0.0278312934989923  | X         |
+| Bif\_torque\_local\_std   |    2.301028e+01| 0.0592057638788328  | X         |
+| Bif\_torque\_local\_max   |    8.810073e+01| 0.0752406964607671  | X         |
+| Bif\_torque\_local\_sum   |    8.028468e+03| 0.00506177323461263 | X         |
+| Bif\_tilt\_local\_min     |    1.237795e+02| -0.0473856576332252 | X         |
+| Bif\_tilt\_local\_avg     |    1.422379e+02| -0.185367299328921  | X         |
+| Bif\_tilt\_local\_std     |    1.475418e+01| 0.111155845900793   | X         |
+| Bif\_tilt\_local\_max     |    7.678624e+01|                     | X         |
+| Bif\_tilt\_local\_sum     |    1.611524e+04| 0.955729654829031   |           |
+| N\_bifs\_sum              |    1.574247e+02| 0.999960965731527   |           |
 
 
 [Node]: ../data_model.html#node

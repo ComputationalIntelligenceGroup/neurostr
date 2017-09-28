@@ -159,7 +159,10 @@ menu:
                 relativeUrl: "doc/measures/prebuilt.html#neuron"
               lmeasure:
                   text: "L-measure measures"
-                  relativeUrl: "doc/measures/prebuilt.html#lmeasure"
+                  relativeUrl: "doc/measures/prebuilt.html#lmeasure" 
+              lmeasure-comparison:
+                  text: "L-measure comparison"
+                  relativeUrl: "doc/measures/prebuilt.html#lmeasure-comparison"
           aggregators:
             text: "Aggregators"
             relativeUrl: "doc/measures.html#aggregators"
