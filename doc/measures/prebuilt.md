@@ -65,6 +65,7 @@ You might notice (and it seems odd) that there are very few Neurite and Neuron m
 - [Remote torque angle](#branch_remotetorque)
 - [Length](#branch_length)
 - [Intersects](#branch_intersects)
+- [Vertex type](#vertex_type)
 
 ---
 
@@ -745,6 +746,17 @@ exception for a [Branch] with no nodes.
 
 **Details:** The function pre-checks the possible intersection by checking the bounding box of each pair of [Branches]. If the boxes intersect, then computes the branch-branch distance (that is, the segment-segment distance for each pair of segments).
 
+
+
+---
+
+### Vertex type <a id="vertex_type"> </a>
+
+**Function:** `vertex_type = [](const Branch& b) -> float ` 
+
+**Description:** Returns the bifurcation type. There are three possible values: 2: (primary bifurcation) ends in two terminals; 1: (secondary bifurcation) one terminal and one bifurcating child; 0 (tertiary bifurcation) two bifurcating children.
+
+**Output:** An integer: 0, 1, or 2.  
 
 
 ---

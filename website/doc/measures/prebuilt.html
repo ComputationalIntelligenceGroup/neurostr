@@ -245,6 +245,7 @@
 <li><a href="#branch_remotetorque">Remote torque angle</a></li>
 <li><a href="#branch_length">Length</a></li>
 <li><a href="#branch_intersects">Intersects</a></li>
+<li><a href="#vertex_type">Vertex type</a></li>
 </ul>
 <hr />
 <h3><a href="#neurite">Neurite Measures</a></h3>
@@ -577,6 +578,11 @@ exception for a <a href="../data_model.html#branch">Branch</a> with no nodes.</p
 <p><strong>Description:</strong> Checks if the given <a href="../data_model.html#branch">Branch</a> intersects with any other <a href="../data_model.html#branch">Branch</a> in the <a href="../data_model.html#neuron">Neuron</a>, and returns its id in that case. If <em>ignore_radius</em> flag is set to true, the radius of each compartment is taken into account when checking intersections.</p>
 <p><strong>Output:</strong> Id of the intersecting <a href="../data_model.html#branch">branch</a> + &quot;@ Neurite: id&quot;. An empty string otherwise.</p>
 <p><strong>Details:</strong> The function pre-checks the possible intersection by checking the bounding box of each pair of [Branches]. If the boxes intersect, then computes the branch-branch distance (that is, the segment-segment distance for each pair of segments).</p>
+<hr />
+<h3 id="vertex-type">Vertex type <a id="vertex_type"> </a></h3>
+<p><strong>Function:</strong> <code>vertex_type = [](const Branch&amp; b) -&gt; float</code> </p>
+<p><strong>Description:</strong> Returns the bifurcation type. There are three possible values: 2: (primary bifurcation) ends in two terminals; 1: (secondary bifurcation) one terminal and one bifurcating child; 0 (tertiary bifurcation) two bifurcating children.</p>
+<p><strong>Output:</strong> An integer: 0, 1, or 2.  </p>
 <hr />
 <h1 id="neurite">Neurite measures</h1>
 <h3 id="root-is-soma">Root is soma <a id="neurite_rootsoma"> </a></h3>
