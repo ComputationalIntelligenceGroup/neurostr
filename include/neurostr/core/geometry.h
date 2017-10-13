@@ -615,7 +615,7 @@ namespace geometry
         }
         else{
           // DELETE intermediate nodes
-          v.erase(ini+1,end);
+          v.erase(ini+1,end-1);
         }
       }
   }; // RDP simplifier
