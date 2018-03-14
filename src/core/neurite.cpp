@@ -106,7 +106,7 @@ void Neurite::correct(const point_type up)  {
   // First: remove null segments
   remove_null_segments();
   // Remove single b
-  collapse_single_branches();
+  //collapse_single_branches();
   // Remove empty
   remove_empty_branches();
   // Reassign roots

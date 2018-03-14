@@ -37,7 +37,7 @@ You might notice (and it seems odd) that there are very few Neurite and Neuron m
 - [Distance to closest segment](#node_distclosest)
 - [Fractal dimension](#node_fractal)
 
- ---
+---
 
 ### [Branch Measures](#branch)
 
