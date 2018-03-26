@@ -6,7 +6,7 @@
 
 #include <neurostr/tools/validator.h>
 
-void validate(std::string ifile, bool attached = true, bool soma = true, bool planar = true, bool dendcount = true, bool apcount = true, bool axoncount = true, bool trif = true, bool linear = true, bool zerolen = true, bool intersec = true, bool nodecr = true, bool segcoll = false , bool branchcoll = true, bool angles =true, bool exhaustive = false, bool nostrict = false, bool nodiams = false, bool bidim = false, bool omitapical = false, bool omitaxon = false, bool omitdend = false, bool omitsoma = false, float planar_rec_threshold = 1.01, float linear_branch_threshold = 1.01, int dcount_min = 2, int dcount_max = 13)
+void validate(std::ostream& outstream, std::string ifile, bool attached = true, bool soma = true, bool planar = true, bool dendcount = true, bool apcount = true, bool axoncount = true, bool trif = true, bool linear = true, bool zerolen = true, bool intersec = true, bool nodecr = true, bool segcoll = false , bool branchcoll = true, bool angles =true, bool exhaustive = false, bool nostrict = false, bool nodiams = false, bool bidim = false, bool omitapical = false, bool omitaxon = false, bool omitdend = false, bool omitsoma = false, float planar_rec_threshold = 1.01, float linear_branch_threshold = 1.01, int dcount_min = 2, int dcount_max = 13)
 { 
   
   // Read
@@ -20,7 +20,7 @@ void validate(std::string ifile, bool attached = true, bool soma = true, bool pl
   
   
   // Run validations and output report
-  std::cout << "[" << std::endl;
+  outstream << "[" << std::endl;
 
   bool first = true;
   
@@ -28,7 +28,7 @@ void validate(std::string ifile, bool attached = true, bool soma = true, bool pl
   if(attached && !omitsoma){
     output_validation(n, 
                       nv::neurites_attached_to_soma, 
-                      std::cout, 
+                      outstream, 
                       exhaustive,
                       first);
   }
@@ -37,7 +37,7 @@ void validate(std::string ifile, bool attached = true, bool soma = true, bool pl
   if(soma && !omitsoma){
     output_validation(n, 
                       nv::neuron_has_soma, 
-                      std::cout, 
+                      outstream, 
                       exhaustive,
                       first);
   }
@@ -46,7 +46,7 @@ void validate(std::string ifile, bool attached = true, bool soma = true, bool pl
   if(planar && !bidim){
     output_validation(n, 
                       nv::planar_reconstruction_validator_factory(planar_rec_threshold), 
-                      std::cout, 
+                      outstream, 
                       exhaustive,
                       first);
   }
@@ -54,7 +54,7 @@ void validate(std::string ifile, bool attached = true, bool soma = true, bool pl
   if(dendcount && !omitdend){
     output_validation(n, 
                       nv::dendrite_count_validator_factory(dcount_min,dcount_max),
-                      std::cout, 
+                      outstream, 
                       exhaustive,
                       first);
   }
@@ -62,7 +62,7 @@ void validate(std::string ifile, bool attached = true, bool soma = true, bool pl
   if(apcount && !omitapical){
     output_validation(n, 
                       nv::apical_count_validator_factory(!nostrict),
-                      std::cout, 
+                      outstream, 
                       exhaustive,
                       first);
   }
@@ -70,7 +70,7 @@ void validate(std::string ifile, bool attached = true, bool soma = true, bool pl
   if(axoncount && !omitaxon){
     output_validation(n, 
                       nv::axon_count_validator_factory(!nostrict),
-                      std::cout, 
+                      outstream, 
                       exhaustive,
                       first);
   }
@@ -78,7 +78,7 @@ void validate(std::string ifile, bool attached = true, bool soma = true, bool pl
   if(trif){
     output_validation(n, 
                       nv::no_trifurcations_validator,
-                      std::cout, 
+                      outstream, 
                       exhaustive,
                       first);
   }
@@ -86,7 +86,7 @@ void validate(std::string ifile, bool attached = true, bool soma = true, bool pl
   if(linear){
     output_validation(n, 
                       nv::linear_branches_validator_factory(linear_branch_threshold),
-                      std::cout, 
+                      outstream, 
                       exhaustive,
                       first);
   }
@@ -94,7 +94,7 @@ void validate(std::string ifile, bool attached = true, bool soma = true, bool pl
   if(zerolen){
     output_validation(n, 
                       nv::zero_length_segments_validator,
-                      std::cout, 
+                      outstream, 
                       exhaustive,
                       first);
   }
@@ -103,7 +103,7 @@ void validate(std::string ifile, bool attached = true, bool soma = true, bool pl
   if(intersec && !nodiams){
     output_validation(n, 
                       nv::radius_length_segments_validator,
-                      std::cout, 
+                      outstream, 
                       exhaustive,
                       first);
   }
@@ -112,7 +112,7 @@ void validate(std::string ifile, bool attached = true, bool soma = true, bool pl
   if(nodecr  && !nodiams ){
     output_validation(n, 
                       nv::increasing_radius_validator,
-                      std::cout, 
+                      outstream, 
                       exhaustive,
                       first);
   }
@@ -120,7 +120,7 @@ void validate(std::string ifile, bool attached = true, bool soma = true, bool pl
   if(branchcoll){
     output_validation(n, 
                       nv::branch_collision_validator_factory(nodiams),
-                      std::cout, 
+                      outstream, 
                       exhaustive,
                       first);
   }
@@ -128,7 +128,7 @@ void validate(std::string ifile, bool attached = true, bool soma = true, bool pl
   if(segcoll){
     output_validation(n, 
                       nv::segment_collision_validator,
-                      std::cout, 
+                      outstream, 
                       exhaustive,
                       first);
   }
@@ -137,12 +137,12 @@ void validate(std::string ifile, bool attached = true, bool soma = true, bool pl
   if(angles){
     output_validation(n, 
                       nv::extreme_angles_validator,
-                      std::cout, 
+                      outstream, 
                       exhaustive,
                       first);
   }
   
-  std::cout << "]" << std::endl;
+  outstream << "]" << std::endl;
   
 }
 
@@ -252,6 +252,7 @@ int main(int ac, char **av)
   po::variables_map vm;
   po::store(po::command_line_parser(ac, av).options(desc).run(), vm);
   po::notify(vm);    
+
   
 	if (vm.count("help")){
     std::cout << desc << "\n";
@@ -302,7 +303,7 @@ int main(int ac, char **av)
   } 
   
   /*** END PARAMETER PARSING */ 
-  validate(ifile, attached, soma, planar, dendcount, apcount, axoncount, trif, linear, zerolen, intersec , nodecr, segcoll , branchcoll, angles, exhaustive, nostrict, nodiams, bidim, omitapical, omitaxon, omitdend, omitsoma, planar_rec_threshold, linear_branch_threshold, dcount_min, dcount_max);
+  validate(std::cout, ifile, attached, soma, planar, dendcount, apcount, axoncount, trif, linear, zerolen, intersec , nodecr, segcoll , branchcoll, angles, exhaustive, nostrict, nodiams, bidim, omitapical, omitaxon, omitdend, omitsoma, planar_rec_threshold, linear_branch_threshold, dcount_min, dcount_max);
 
 }
 
