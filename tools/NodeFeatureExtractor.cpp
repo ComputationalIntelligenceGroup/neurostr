@@ -45,21 +45,19 @@ int main(int ac, char **av)
   po::store(po::command_line_parser(ac, av).options(desc).run(), vm);
   po::notify(vm);    
 
-  std::stringstream  outstream;
   
 	if (vm.count("help")){
-    outstream << desc << "\n";
-    outstream << "Example: neurostr_branchfeature -i test.swc " << std::endl << std::endl ;
+    std::cout << desc << "\n";
+    std::cout << "Example: neurostr_branchfeature -i test.swc " << std::endl << std::endl ;
     return 1;
   }
   
   if(!vm.count("input") || !vm.count("input")){
-    outstream << "ERROR: input file required" << std::endl << std::endl;
-    outstream << desc << "\n";
-    outstream << "Example: neurostr_branchfeature -i test.swc " << std::endl << std::endl ;
+    std::cout << "ERROR: input file required" << std::endl << std::endl;
+    std::cout << desc << "\n";
+    std::cout << "Example: neurostr_branchfeature -i test.swc " << std::endl << std::endl ;
     return 2;
-  }
-  
+  } 
   
   omitapical = (vm.count("omitapical") > 0);
   omitaxon = (vm.count("omitaxon") > 0);
@@ -67,7 +65,7 @@ int main(int ac, char **av)
   correct = (vm.count("correct") > 0);
   
   /*** END PARAMETER PARSING */
-  compute_node_features(outstream, ifile, omitapical, omitaxon, omitdend, correct); 
+  compute_node_features(std::cout, ifile, omitapical, omitaxon, omitdend, correct); 
 }
 
 
