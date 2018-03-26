@@ -19,19 +19,11 @@
 
 #include <neurostr/io/parser_dispatcher.h> 
 #include <neurostr/measure/lmeasure_decl.h>
+#include <neurostr/tools/features_tools.h>
 
 namespace ns = neurostr::selector;
 namespace nm = neurostr::measure; 
-namespace nlm = neurostr::measure::lmeasure;
-
- std::string escape_string(const std::string& s){
-   return "\""+s+"\"";
- }
- 
- std::string escape_string(const char *c){
-   return escape_string(std::string(c));
- }
- 
+namespace nlm = neurostr::measure::lmeasure; 
  
  std::map<std::string, float> get_branch_measures(const neurostr::Branch& b){
    
@@ -179,33 +171,6 @@ void print_branch_id(const neurostr::Branch& b, std::ostream& os){
   
   os << ", " << escape_string("branch") << " : " << escape_string(b.idString()) ;
   os << ", " << escape_string("node") << " : " << b.last().id() ;
-}
-
-// Note: This should be done with rapidjson
-void print_measures(std::map<std::string, float>& m , 
-                            std::ostream& os ){
-  bool first = true;
-  // Measures json element
-  os << escape_string("measures") << " : { ";   
-
-  // Print each measure
-  for(auto it = m.begin(); it!=m.end();++it ){
-    
-    // If values vector is not empty
-    if(!std::isnan(it->second)){
-      if(first){
-        first = false;
-      } else {
-        os << ", ";
-      }      
-    
-     // Print key and value
-      os << escape_string(it->first) << " : " << std::to_string(it->second) ;
-    
-    } // End if value is nan
-    
-  } // End for loop
-  os << " }"; // Close measures
 }
 
 void print_branch_measures(const neurostr::Branch& b, std::ostream& os){
