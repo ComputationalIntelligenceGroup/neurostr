@@ -235,14 +235,14 @@ void print_branch_measures(const neurostr::Branch& b, std::ostream& os){
   os << "}";
 }
 
-void compute_branch_measures(std::string ifile, bool omitapical, bool omitaxon, bool omitdend, bool correct, std::string selection ) {
+void compute_branch_measures(std::string ifile, bool omitapical, bool omitaxon, bool omitdend, bool correct, std::string selection, std::ostream& outstream) {
   
   // Read
   auto r = neurostr::io::read_file_by_ext(ifile);
   
   // Measure each neurite and output report
   bool first = true;
-  std::cout << "[" << std::endl;
+  outstream << "[" << std::endl;
   
   // For each neuron
   for(auto n_it = r->begin(); n_it != r->end(); ++n_it){
@@ -277,15 +277,15 @@ void compute_branch_measures(std::string ifile, bool omitapical, bool omitaxon, 
     // Select branches
     for(auto it = branches.begin(); it != branches.end(); ++it){
       if(!first){
-        std::cout << " , ";
+        outstream << " , ";
       }
       first = false;
       
-      print_branch_measures(*it, std::cout);
+      print_branch_measures(*it, outstream);
     }  
   }
   
-  std::cout << "]" << std::endl;
+  outstream << "]" << std::endl;
   
 } 
 
@@ -322,22 +322,22 @@ int main(int ac, char **av)
     ("omitaxon", "Ignore the axon")
     ("omitdend", "Ignore the non-apical dendrites");
   
-  
+  std::ostream& outstream = std::cout; 
   
   po::variables_map vm;
   po::store(po::command_line_parser(ac, av).options(desc).run(), vm);
   po::notify(vm);    
   
 	if (vm.count("help")){
-    std::cout << desc << "\n";
-    std::cout << "Example: neurostr_branchfeature -i test.swc " << std::endl << std::endl ;
+    outstream << desc << "\n";
+    outstream << "Example: neurostr_branchfeature -i test.swc " << std::endl << std::endl ;
     return 1;
   }
   
   if(!vm.count("input") || !vm.count("input")){
-    std::cout << "ERROR: input file required" << std::endl << std::endl;
-    std::cout << desc << "\n";
-    std::cout << "Example: neurostr_branchfeature -i test.swc " << std::endl << std::endl ;
+    outstream << "ERROR: input file required" << std::endl << std::endl;
+    outstream << desc << "\n";
+    outstream << "Example: neurostr_branchfeature -i test.swc " << std::endl << std::endl ;
     return 2;
   }
   
@@ -348,6 +348,6 @@ int main(int ac, char **av)
   correct = (vm.count("correct") > 0); 
   
   /*** END PARAMETER PARSING */
-  compute_branch_measures(ifile, omitapical, omitaxon, omitdend, correct, selection );
+  compute_branch_measures(ifile, omitapical, omitaxon, omitdend, correct, selection, std::cout );
 
 } 
