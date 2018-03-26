@@ -1,53 +1,150 @@
-#include <stdio.h>
-
-#include <stdio.h>
-
-#include <string>
-#include <iostream>
-#include <algorithm>
 #include <boost/program_options/cmdline.hpp>
 #include <boost/program_options/parsers.hpp>
 #include <boost/program_options/option.hpp>
 #include <boost/program_options/options_description.hpp>
 #include <boost/program_options/variables_map.hpp>
-#include <boost/format.hpp>
 
-//#define BOOST_FILESYSTEM_NO_DEPRECATED 
-#include <boost/filesystem.hpp>
+#include <neurostr/tools/validator.h>
 
-#include <neurostr/core/log.h>
-#include <neurostr/core/neuron.h>
-#include <neurostr/io/parser_dispatcher.h>
-#include <neurostr/validator/predefined_validators.h>
+void validate(std::string ifile, bool attached = true, bool soma = true, bool planar = true, bool dendcount = true, bool apcount = true, bool axoncount = true, bool trif = true, bool linear = true, bool zerolen = true, bool intersec = true, bool nodecr = true, bool segcoll = false , bool branchcoll = true, bool angles =true, bool exhaustive = false, bool nostrict = false, bool nodiams = false, bool bidim = false, bool omitapical = false, bool omitaxon = false, bool omitdend = false, bool omitsoma = false, float planar_rec_threshold = 1.01, float linear_branch_threshold = 1.01, int dcount_min = 2, int dcount_max = 13)
+{ 
+  
+  // Read
+  auto r = neurostr::io::read_file_by_ext(ifile);
+  neurostr::Neuron& n = *(r->begin());
+  
+  /** Remove **/
+  if(omitapical) n.erase_apical();
+  if(omitaxon) n.erase_axon();
+  if(omitdend) n.erase_dendrites();
+  
+  
+  // Run validations and output report
+  std::cout << "[" << std::endl;
 
-namespace po = boost::program_options;
-namespace nv = neurostr::validator;
-
-void set_validation_flag( const po::variables_map& map, const std::string& basename,bool& value){
-  if( map.count(basename)){
-    value = true;
-  } else if (map.count( std::string("no") + basename)){
-    value = false;
+  bool first = true;
+  
+  // Execute attached
+  if(attached && !omitsoma){
+    output_validation(n, 
+                      nv::neurites_attached_to_soma, 
+                      std::cout, 
+                      exhaustive,
+                      first);
   }
-}
 
-template <typename V>
-void output_validation(const neurostr::Neuron& n, 
-                       const V& validation, 
-                       std::ostream& os, 
-                       const bool exhaustive,
-                       bool& first){
-    
-    V test = validation;
-    test.validate(n);
-    
-    if(!first)
-      std::cout << "," << std::endl;
-    
-    test.toJSON(os,!exhaustive);
-    
-    first = false;
-};
+  // Execute has soma
+  if(soma && !omitsoma){
+    output_validation(n, 
+                      nv::neuron_has_soma, 
+                      std::cout, 
+                      exhaustive,
+                      first);
+  }
+  
+  // Execute planar rec - disabled for 2D
+  if(planar && !bidim){
+    output_validation(n, 
+                      nv::planar_reconstruction_validator_factory(planar_rec_threshold), 
+                      std::cout, 
+                      exhaustive,
+                      first);
+  }
+  
+  if(dendcount && !omitdend){
+    output_validation(n, 
+                      nv::dendrite_count_validator_factory(dcount_min,dcount_max),
+                      std::cout, 
+                      exhaustive,
+                      first);
+  }
+  
+  if(apcount && !omitapical){
+    output_validation(n, 
+                      nv::apical_count_validator_factory(!nostrict),
+                      std::cout, 
+                      exhaustive,
+                      first);
+  }
+  
+  if(axoncount && !omitaxon){
+    output_validation(n, 
+                      nv::axon_count_validator_factory(!nostrict),
+                      std::cout, 
+                      exhaustive,
+                      first);
+  }
+  
+  if(trif){
+    output_validation(n, 
+                      nv::no_trifurcations_validator,
+                      std::cout, 
+                      exhaustive,
+                      first);
+  }
+  
+  if(linear){
+    output_validation(n, 
+                      nv::linear_branches_validator_factory(linear_branch_threshold),
+                      std::cout, 
+                      exhaustive,
+                      first);
+  }
+  
+  if(zerolen){
+    output_validation(n, 
+                      nv::zero_length_segments_validator,
+                      std::cout, 
+                      exhaustive,
+                      first);
+  }
+  
+  // Intersecting nodes - disabled when nodiams flag is present
+  if(intersec && !nodiams){
+    output_validation(n, 
+                      nv::radius_length_segments_validator,
+                      std::cout, 
+                      exhaustive,
+                      first);
+  }
+
+  // Non decreasing radius - disabled when nodiams flag is present
+  if(nodecr  && !nodiams ){
+    output_validation(n, 
+                      nv::increasing_radius_validator,
+                      std::cout, 
+                      exhaustive,
+                      first);
+  }
+  
+  if(branchcoll){
+    output_validation(n, 
+                      nv::branch_collision_validator_factory(nodiams),
+                      std::cout, 
+                      exhaustive,
+                      first);
+  }
+
+  if(segcoll){
+    output_validation(n, 
+                      nv::segment_collision_validator,
+                      std::cout, 
+                      exhaustive,
+                      first);
+  }
+
+
+  if(angles){
+    output_validation(n, 
+                      nv::extreme_angles_validator,
+                      std::cout, 
+                      exhaustive,
+                      first);
+  }
+  
+  std::cout << "]" << std::endl;
+  
+}
 
 /**
  * @brief 
@@ -202,143 +299,10 @@ int main(int ac, char **av)
     omitaxon = false;
     omitdend = false;
     omitsoma = false;
-  }
+  } 
   
-  bool first = true;
-  
-  /*** END PARAMETER PARSING */
-  
-  // Read
-  auto r = neurostr::io::read_file_by_ext(ifile);
-  neurostr::Neuron& n = *(r->begin());
-  
-  /** Remove **/
-  if(omitapical) n.erase_apical();
-  if(omitaxon) n.erase_axon();
-  if(omitdend) n.erase_dendrites();
-  
-  
-  // Run validations and output report
-  std::cout << "[" << std::endl;
-  
-  // Execute attached
-  if(attached && !omitsoma){
-    output_validation(n, 
-                      nv::neurites_attached_to_soma, 
-                      std::cout, 
-                      exhaustive,
-                      first);
-  }
+  /*** END PARAMETER PARSING */ 
+  validate(ifile, attached, soma, planar, dendcount, apcount, axoncount, trif, linear, zerolen, intersec , nodecr, segcoll , branchcoll, angles, exhaustive, nostrict, nodiams, bidim, omitapical, omitaxon, omitdend, omitsoma, planar_rec_threshold, linear_branch_threshold, dcount_min, dcount_max);
 
-  // Execute has soma
-  if(soma && !omitsoma){
-    output_validation(n, 
-                      nv::neuron_has_soma, 
-                      std::cout, 
-                      exhaustive,
-                      first);
-  }
-  
-  // Execute planar rec - disabled for 2D
-  if(planar && !bidim){
-    output_validation(n, 
-                      nv::planar_reconstruction_validator_factory(planar_rec_threshold), 
-                      std::cout, 
-                      exhaustive,
-                      first);
-  }
-  
-  if(dendcount && !omitdend){
-    output_validation(n, 
-                      nv::dendrite_count_validator_factory(dcount_min,dcount_max),
-                      std::cout, 
-                      exhaustive,
-                      first);
-  }
-  
-  if(apcount && !omitapical){
-    output_validation(n, 
-                      nv::apical_count_validator_factory(!nostrict),
-                      std::cout, 
-                      exhaustive,
-                      first);
-  }
-  
-  if(axoncount && !omitaxon){
-    output_validation(n, 
-                      nv::axon_count_validator_factory(!nostrict),
-                      std::cout, 
-                      exhaustive,
-                      first);
-  }
-  
-  if(trif){
-    output_validation(n, 
-                      nv::no_trifurcations_validator,
-                      std::cout, 
-                      exhaustive,
-                      first);
-  }
-  
-  if(linear){
-    output_validation(n, 
-                      nv::linear_branches_validator_factory(linear_branch_threshold),
-                      std::cout, 
-                      exhaustive,
-                      first);
-  }
-  
-  if(zerolen){
-    output_validation(n, 
-                      nv::zero_length_segments_validator,
-                      std::cout, 
-                      exhaustive,
-                      first);
-  }
-  
-  // Intersecting nodes - disabled when nodiams flag is present
-  if(intersec && !nodiams){
-    output_validation(n, 
-                      nv::radius_length_segments_validator,
-                      std::cout, 
-                      exhaustive,
-                      first);
-  }
-
-  // Non decreasing radius - disabled when nodiams flag is present
-  if(nodecr  && !nodiams ){
-    output_validation(n, 
-                      nv::increasing_radius_validator,
-                      std::cout, 
-                      exhaustive,
-                      first);
-  }
-  
-  if(branchcoll){
-    output_validation(n, 
-                      nv::branch_collision_validator_factory(nodiams),
-                      std::cout, 
-                      exhaustive,
-                      first);
-  }
-
-  if(segcoll){
-    output_validation(n, 
-                      nv::segment_collision_validator,
-                      std::cout, 
-                      exhaustive,
-                      first);
-  }
-
-
-  if(angles){
-    output_validation(n, 
-                      nv::extreme_angles_validator,
-                      std::cout, 
-                      exhaustive,
-                      first);
-  }
-  
-  std::cout << "]" << std::endl;
-  
 }
+
