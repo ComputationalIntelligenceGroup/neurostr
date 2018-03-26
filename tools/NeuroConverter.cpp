@@ -20,6 +20,39 @@
 
 namespace po = boost::program_options;
 
+int convert(std::string ifile, std::string ofile, std::string ext, bool correct = false, float eps = 0.0) 
+{ 
+
+  // Create ofstream /ifstreams
+  std::ofstream ofs(ofile);
+  
+  // Read
+  auto r = neurostr::io::read_file_by_ext(ifile);
+  
+  // Simpify / correct
+  for(auto it = r->begin(); it != r->end(); ++it){
+    if(correct) it->correct();
+    if(eps != 0.0 ){
+      it->simplify(eps);
+    }
+  } 
+  
+  // Select a writer depending on the extension
+  if(ext == "swc"){
+    if(r->size() > 1){
+      NSTR_LOG_(warn, "The output SWC file will only contain the first neuron in the reconstruction. The rest are ignored");
+    }
+    neurostr::io::SWCWriter writer(ofs);
+    writer.write(*(r->begin()));  // Writes first neuron 
+  } else if (ext == "json"){
+    neurostr::io::JSONWriter writer(ofs);
+    writer.write(*r);
+  } 
+  
+  // Close stream - Reconstruction should be autom. free'd (unique_ptr)
+  ofs.close(); 
+}
+
 int main(int ac, char **av)
 {
   
@@ -27,17 +60,13 @@ int main(int ac, char **av)
   neurostr::log::enable_log();
   
   // Input file
-  std::string ifile;
-  
+  std::string ifile; 
   // Output file
-  std::string ofile;
-  
+  std::string ofile; 
   // Output Format
-  std::string ext;
-  
+  std::string ext; 
   // Apply correct
-  bool correct = false;
-  
+  bool correct = false; 
   // Apply RDP simplification
   float eps = 0.0;
   
@@ -80,51 +109,26 @@ int main(int ac, char **av)
     std::cout << "Example: neurostr_converter -i test.swc -o test.json -f json " << std::endl << std::endl ;
     return 3;
   }
-  
+
   //Get correct flag
   correct = vm.count("correct");
-  
+
   // Verbosity
   if(vm.count("verbose")){
     neurostr::log::set_level(neurostr::log::severity_level::debug);
   }
   
-  // Create ofstream /ifstreams
-  std::ofstream ofs(ofile);
-  
-  // Read
-  auto r = neurostr::io::read_file_by_ext(ifile);
-  
-  // Simpify / correct
-  for(auto it = r->begin(); it != r->end(); ++it){
-    if(correct) it->correct();
-    if(eps != 0.0 ){
-      it->simplify(eps);
-    }
-  }
-  
+
   // Transform extension to lower
   std::transform(ext.begin(),ext.end(),ext.begin(),::tolower);
   
-  // Select a writer depending on the extension
-  if(ext == "swc"){
-    if(r->size() > 1){
-      NSTR_LOG_(warn, "The output SWC file will only contain the first neuron in the reconstruction. The rest are ignored");
-    }
-    neurostr::io::SWCWriter writer(ofs);
-    writer.write(*(r->begin()));  // Writes first neuron
-    
-  } else if (ext == "json"){
-    neurostr::io::JSONWriter writer(ofs);
-    writer.write(*r);
-  } else {
+  if (ext != "swc" && ext != "json") {
     // Error - Unrecognized
     NSTR_LOG_(error,"Unrecognized output format");
     std::cout << desc << "\n";
     std::cout << "Accepted formats: swc, json" << std::endl << std::endl ;
     return 4;
-  }
-  
-  // Close stream - Reconstruction should be autom. free'd (unique_ptr)
-  ofs.close();
+  } 
+
+  convert(ifile, ofile, ext, correct, eps); 
 }
