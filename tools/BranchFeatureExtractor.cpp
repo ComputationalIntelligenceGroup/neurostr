@@ -5,7 +5,7 @@
 #include <boost/program_options/variables_map.hpp>
 #include <boost/program_options/variables_map.hpp>
 
-#include <neurostr/branch_features.h>
+#include <neurostr/tools/branch_features.h>
 
 namespace po = boost::program_options;
 
