@@ -10,16 +10,7 @@
 #include <neurostr/io/parser_dispatcher.h>
 #include <neurostr/validator/predefined_validators.h>
 
-namespace po = boost::program_options;
 namespace nv = neurostr::validator;
-
-void set_validation_flag( const po::variables_map& map, const std::string& basename,bool& value){
-  if( map.count(basename)){
-    value = true;
-  } else if (map.count( std::string("no") + basename)){
-    value = false;
-  }
-}
 
 template <typename V>
 void output_validation(const neurostr::Neuron& n, 

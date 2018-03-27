@@ -6,6 +6,16 @@
 
 #include <neurostr/tools/validator_tool.h>
 
+namespace po = boost::program_options; 
+
+void set_validation_flag( const po::variables_map& map, const std::string& basename,bool& value){
+  if( map.count(basename)){
+    value = true;
+  } else if (map.count( std::string("no") + basename)){
+    value = false;
+  }
+}
+
 
 /**
  * @brief 
