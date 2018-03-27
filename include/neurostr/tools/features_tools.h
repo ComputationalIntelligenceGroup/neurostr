@@ -2,16 +2,16 @@
 #define NEUROSTR_TOOLS_FEATURES_H_
 
 
- std::string escape_string(const std::string& s){
+inline std::string escape_string(const std::string& s){
    return "\""+s+"\"";
  }
  
- std::string escape_string(const char *c){
+inline std::string escape_string(const char *c){
    return escape_string(std::string(c));
  }
 
 // Note: This should be done with rapidjson
-void print_measures(std::map<std::string, float>& m , 
+inline void print_measures(std::map<std::string, float>& m , 
                             std::ostream& os )
 {
   bool first = true;
