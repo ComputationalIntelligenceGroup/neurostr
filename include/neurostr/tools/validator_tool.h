@@ -1,3 +1,6 @@
+#ifndef NEUROSTR_TOOLS_VALIDATOR_H_
+#define NEUROSTR_TOOLS_VALIDATOR_H_
+
 #include <stdio.h> 
 
 #include <string>
@@ -31,7 +34,7 @@ void output_validation(const neurostr::Neuron& n,
 };
 
 
-void validate(std::ostream& outstream, std::string ifile, bool attached = true, bool soma = true, bool planar = true, bool dendcount = true, bool apcount = true, bool axoncount = true, bool trif = true, bool linear = true, bool zerolen = true, bool intersec = true, bool nodecr = true, bool segcoll = false , bool branchcoll = true, bool angles =true, bool exhaustive = false, bool nostrict = false, bool nodiams = false, bool bidim = false, bool omitapical = false, bool omitaxon = false, bool omitdend = false, bool omitsoma = false, float planar_rec_threshold = 1.01, float linear_branch_threshold = 1.01, int dcount_min = 2, int dcount_max = 13)
+void do_validate(std::ostream& outstream, std::string ifile, bool attached = true, bool soma = true, bool planar = true, bool dendcount = true, bool apcount = true, bool axoncount = true, bool trif = true, bool linear = true, bool zerolen = true, bool intersec = true, bool nodecr = true, bool segcoll = false , bool branchcoll = true, bool angles =true, bool exhaustive = false, bool nostrict = false, bool nodiams = false, bool bidim = false, bool omitapical = false, bool omitaxon = false, bool omitdend = false, bool omitsoma = false, float planar_rec_threshold = 1.01, float linear_branch_threshold = 1.01, int dcount_min = 2, int dcount_max = 13)
 { 
   
   // Read
@@ -170,3 +173,5 @@ void validate(std::ostream& outstream, std::string ifile, bool attached = true, 
   outstream << "]" << std::endl;
   
 }
+
+#endif  // NEUROSTR_TOOLS_VALIDATOR_H_

@@ -1,3 +1,6 @@
+#ifndef NEUROSTR_TOOLS_BRANCH_FEATURES_H_
+#define NEUROSTR_TOOLS_BRANCH_FEATURES_H_
+
 #include <stdio.h> 
 
 #include <string>
@@ -242,3 +245,5 @@ void compute_branch_measures(std::string ifile, bool omitapical, bool omitaxon, 
   outstream << "]" << std::endl;
   
 } 
+
+#endif  // NEUROSTR_TOOLS_BRANCH_FEATURES_H_

@@ -1,3 +1,6 @@
+#ifndef NEUROSTR_TOOLS_FEATURES_H_
+#define NEUROSTR_TOOLS_FEATURES_H_
+
 
  std::string escape_string(const std::string& s){
    return "\""+s+"\"";
@@ -34,3 +37,5 @@ void print_measures(std::map<std::string, float>& m ,
   } // End for loop
   os << " }"; // Close measures
 } 
+
+#endif  // NEUROSTR_TOOLS_FEATURES_H_

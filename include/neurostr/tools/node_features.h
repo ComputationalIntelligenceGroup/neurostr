@@ -1,3 +1,6 @@
+#ifndef NEUROSTR_TOOLS_NODE_FEATURES_H_
+#define NEUROSTR_TOOLS_NODE_FEATURES_H_
+
 #include <stdio.h>
 
 #include <string>
@@ -133,3 +136,5 @@ void compute_node_features(std::ostream& outstream, std::string ifile, bool omit
   outstream << "]" << std::endl;
   
 }
+
+#endif  // NEUROSTR_TOOLS_NODE_FEATURES_H_

@@ -174,7 +174,7 @@ int main(int ac, char **av)
   } 
   
   /*** END PARAMETER PARSING */ 
-  validate(std::cout, ifile, attached, soma, planar, dendcount, apcount, axoncount, trif, linear, zerolen, intersec , nodecr, segcoll , branchcoll, angles, exhaustive, nostrict, nodiams, bidim, omitapical, omitaxon, omitdend, omitsoma, planar_rec_threshold, linear_branch_threshold, dcount_min, dcount_max);
+  do_validate(std::cout, ifile, attached, soma, planar, dendcount, apcount, axoncount, trif, linear, zerolen, intersec , nodecr, segcoll , branchcoll, angles, exhaustive, nostrict, nodiams, bidim, omitapical, omitaxon, omitdend, omitsoma, planar_rec_threshold, linear_branch_threshold, dcount_min, dcount_max);
 
 }
 

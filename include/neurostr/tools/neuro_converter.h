@@ -1,3 +1,6 @@
+#ifndef NEUROSTR_TOOLS_NEURO_CONVERTER_H_
+#define NEUROSTR_TOOLS_NEURO_CONVERTER_H_
+
 #include <string>
 #include <iostream>
 #include <algorithm>
@@ -44,3 +47,5 @@ void convert(std::string ifile, std::string ofile, std::string ext, bool correct
   // Close stream - Reconstruction should be autom. free'd (unique_ptr)
   ofs.close(); 
 }
+
+#endif  // NEUROSTR_TOOLS_NEURO_CONVERTER_H_
