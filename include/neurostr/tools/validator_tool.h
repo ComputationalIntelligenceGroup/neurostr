@@ -26,7 +26,7 @@ void output_validation(const neurostr::Neuron& n,
     test.validate(n);
     
     if(!first)
-      std::cout << "," << std::endl;
+      os << "," << std::endl;
     
     test.toJSON(os,!exhaustive);
     

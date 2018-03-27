@@ -24,7 +24,6 @@
 #include <neurostr/measure/lmeasure_decl.h> 
 #include <neurostr/tools/features_tools.h>
 
-namespace po = boost::program_options;
 namespace ns = neurostr::selector;
 namespace nm = neurostr::measure; 
 namespace nlm = neurostr::measure::lmeasure;
