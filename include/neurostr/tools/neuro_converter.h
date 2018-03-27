@@ -12,6 +12,8 @@
 
 void convert(std::string ifile, std::string ofile, std::string ext, bool correct = false, float eps = 0.0) 
 { 
+  // Transform extension to lower
+  std::transform(ext.begin(),ext.end(),ext.begin(),::tolower);
 
   // Create ofstream /ifstreams
   std::ofstream ofs(ofile);

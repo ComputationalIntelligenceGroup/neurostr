@@ -71,8 +71,7 @@ int main(int ac, char **av)
   // Verbosity
   if(vm.count("verbose")){
     neurostr::log::set_level(neurostr::log::severity_level::debug);
-  }
-  
+  } 
 
   // Transform extension to lower
   std::transform(ext.begin(),ext.end(),ext.begin(),::tolower);
