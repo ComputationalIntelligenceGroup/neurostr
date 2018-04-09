@@ -13,13 +13,10 @@
 #include <neurostr/io/SWCWriter.h>
 #include <neurostr/io/JSONWriter.h>
 
-void convert(std::string ifile, std::string ofile, std::string ext, bool correct = false, float eps = 0.0) 
+void convert(std::string ifile, std::ostream& ofs, std::string ext, bool correct = false, float eps = 0.0) 
 { 
   // Transform extension to lower
-  std::transform(ext.begin(),ext.end(),ext.begin(),::tolower);
-
-  // Create ofstream /ifstreams
-  std::ofstream ofs(ofile);
+  std::transform(ext.begin(),ext.end(),ext.begin(),::tolower); 
   
   // Read
   auto r = neurostr::io::read_file_by_ext(ifile);
@@ -44,8 +41,7 @@ void convert(std::string ifile, std::string ofile, std::string ext, bool correct
     writer.write(*r);
   } 
   
-  // Close stream - Reconstruction should be autom. free'd (unique_ptr)
-  ofs.close(); 
+  // Reconstruction should be autom. free'd (unique_ptr)
 }
 
 #endif  // NEUROSTR_TOOLS_NEURO_CONVERTER_H_

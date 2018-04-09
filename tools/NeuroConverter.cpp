@@ -84,5 +84,7 @@ int main(int ac, char **av)
     return 4;
   } 
 
-  convert(ifile, ofile, ext, correct, eps); 
+  std::ofstream ofs(ofile);
+  convert(ifile, ofs, ext, correct, eps); 
+  ofs.close(); 
 }
