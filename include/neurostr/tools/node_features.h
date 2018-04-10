@@ -49,6 +49,8 @@ std::map<std::string, float> get_node_measures(const neurostr::Node& n){
   m.emplace( "change_y", parent.get<1>()); 
   m.emplace( "change_z", parent.get<2>()); 
 
+  m.emplace( "node_order", nm::node_order(n)); 
+
   m.emplace( "node_local_elongation", nm::node_local_elongation_angle(n));
   std::pair<float, float> orientation = nm::node_local_orientation(n);
   m.emplace( "node_local_orientation.a", orientation.first ); 
