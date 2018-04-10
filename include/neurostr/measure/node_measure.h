@@ -47,6 +47,11 @@ const auto node_order = [](const Node& n) -> int {
   return n.branch().order();
 };
 
+const auto node_in_branch_order = [](const Node& n) -> int {
+  auto nit = std::find(n.branch().begin(), n.branch().end(), n);
+  return std::distance(n.branch().begin(), nit);   
+};
+
 /* Parent-related measures */
 
 // Get node length to parent
