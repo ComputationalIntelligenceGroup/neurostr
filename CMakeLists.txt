@@ -123,7 +123,7 @@ endif(WIN32)
 
 # Add neurostr target
 add_library(neurostr ${LIB_CXX_SRCS})
-target_link_libraries(neurostr -lpthread -lboost_filesystem)
+target_link_libraries(neurostr -lpthread -lboost_filesystem -lboost_system)
 set_property(TARGET neurostr PROPERTY CXX_STANDARD 14)
 set_property(TARGET neurostr PROPERTY CXX_STANDARD_REQUIRED ON)
 
@@ -161,31 +161,31 @@ endif()
 link_directories( ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY} )
 
 add_executable(neurostr_boxcutter ${CMAKE_SOURCE_DIR}/tools/BoxCutter.cpp)
-target_link_libraries(neurostr_boxcutter -lneurostr -lpthread -lboost_filesystem -lboost_program_options)
+target_link_libraries(neurostr_boxcutter -lneurostr -lpthread -lboost_filesystem -lboost_program_options -lboost_system)
 add_dependencies(neurostr_boxcutter neurostr)
 
 add_executable(neurostr_branchfeatures ${CMAKE_SOURCE_DIR}/tools/BranchFeatureExtractor.cpp)
-target_link_libraries(neurostr_branchfeatures -lneurostr -lpthread -lboost_filesystem -lboost_program_options)
+target_link_libraries(neurostr_branchfeatures -lneurostr -lpthread -lboost_filesystem -lboost_program_options -lboost_system)
 add_dependencies(neurostr_branchfeatures neurostr)
 
 add_executable(neurostr_nodefeatures ${CMAKE_SOURCE_DIR}/tools/NodeFeatureExtractor.cpp)
-target_link_libraries(neurostr_nodefeatures -lneurostr -lpthread -lboost_filesystem -lboost_program_options)
+target_link_libraries(neurostr_nodefeatures -lneurostr -lpthread -lboost_filesystem -lboost_program_options -lboost_system)
 add_dependencies(neurostr_nodefeatures neurostr)
 
 add_executable(neurostr_neuritefeatures ${CMAKE_SOURCE_DIR}/tools/NeuriteFeatureExtractor.cpp)
-target_link_libraries(neurostr_neuritefeatures -lneurostr -lpthread -lboost_filesystem -lboost_program_options)
+target_link_libraries(neurostr_neuritefeatures -lneurostr -lpthread -lboost_filesystem -lboost_program_options -lboost_system)
 add_dependencies(neurostr_neuritefeatures neurostr)
 
 add_executable(neurostr_converter ${CMAKE_SOURCE_DIR}/tools/NeuroConverter.cpp)
-target_link_libraries(neurostr_converter -lneurostr -lpthread -lboost_filesystem -lboost_program_options)
+target_link_libraries(neurostr_converter -lneurostr -lpthread -lboost_filesystem -lboost_program_options -lboost_system)
 add_dependencies(neurostr_converter neurostr)
 
 add_executable(neurostr_scholl ${CMAKE_SOURCE_DIR}/tools/Scholl.cpp)
-target_link_libraries(neurostr_scholl -lneurostr -lpthread -lboost_filesystem -lboost_program_options)
+target_link_libraries(neurostr_scholl -lneurostr -lpthread -lboost_filesystem -lboost_program_options -lboost_system)
 add_dependencies(neurostr_scholl neurostr)
 
 add_executable(neurostr_validator ${CMAKE_SOURCE_DIR}/tools/Validator.cpp)
-target_link_libraries(neurostr_validator -lneurostr -lpthread -lboost_filesystem -lboost_program_options)
+target_link_libraries(neurostr_validator -lneurostr -lpthread -lboost_filesystem -lboost_program_options -lboost_system)
 add_dependencies(neurostr_validator neurostr)
 
 add_executable(neurostr_benchmark EXCLUDE_FROM_ALL ${CMAKE_SOURCE_DIR}/tools/Benchmark.cpp)
@@ -193,11 +193,11 @@ target_link_libraries(neurostr_benchmark -lneurostr -lpthread -lboost_filesystem
 add_dependencies(neurostr_benchmark neurostr)
 
 add_executable(neurostr_contourtag ${CMAKE_SOURCE_DIR}/tools/Contour3DTagger.cpp)
-target_link_libraries(neurostr_contourtag -lneurostr -lpthread -lboost_filesystem -lboost_program_options)
+target_link_libraries(neurostr_contourtag -lneurostr -lpthread -lboost_filesystem -lboost_program_options -lboost_system)
 add_dependencies(neurostr_contourtag neurostr)
 
 add_executable(neurostr_tagfeatures ${CMAKE_SOURCE_DIR}/tools/TagFeatureExtractor.cpp)
-target_link_libraries(neurostr_tagfeatures -lneurostr -lpthread -lboost_filesystem -lboost_program_options)
+target_link_libraries(neurostr_tagfeatures -lneurostr -lpthread -lboost_filesystem -lboost_program_options -lboost_system)
 add_dependencies(neurostr_tagfeatures neurostr)
 
 add_custom_target(tools DEPENDS
