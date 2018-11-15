@@ -40,6 +40,8 @@ std::map<std::string, float> get_node_measures(const neurostr::Node& n){
   m.emplace( "y", n.y()); 
   m.emplace( "z", n.z()); 
 
+  m.emplace( "diameter", n.radius()*2.0);
+
   auto zemo = ns::node_subtree_terminals(n); 
   int tdegree = std::distance(zemo.begin(), zemo.end());
   m.emplace( "terminal_degree", tdegree); 
