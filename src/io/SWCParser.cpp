@@ -191,11 +191,11 @@ void SWCParser::process_data_(const std::string& s) {
   try{
     d = std::stof(*it);
   } catch(std::invalid_argument e){
-    throw std::logic_error("Diameter is not numeric in line "+ s +". Diameter: " + *it);
+    throw std::logic_error("Radius is not numeric in line "+ s +". Radius: " + *it);
   }
   
   if(d<0){
-    throw std::logic_error("Negative diameter value " + std::to_string(d));
+    throw std::logic_error("Negative radius value " + std::to_string(d));
   }
   
   // Skip empty fields
@@ -220,7 +220,7 @@ void SWCParser::process_data_(const std::string& s) {
   }
 
   // Create node
-  Node node{id, x, y, z, d / 2.0};
+  Node node{id, x, y, z, d};
 
   if (NeuriteType(type) == NeuriteType::kSoma) {
     neuron_->add_soma(node);

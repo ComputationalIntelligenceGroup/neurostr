@@ -93,7 +93,7 @@ void SWCWriter::writeNode(Node& n, unsigned int type, int parent_id) const {
       % n.x()
       % n.y()
       % n.z()
-      % (n.radius()*2.0)
+      % (n.radius())
       % parent_id;
 }
 
